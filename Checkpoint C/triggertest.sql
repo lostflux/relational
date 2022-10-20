@@ -1,0 +1,1 @@
+/* Tests for the triggers defined in the database */

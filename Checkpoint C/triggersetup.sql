@@ -1,0 +1,1 @@
+/* Script for definition of triggers in the database */

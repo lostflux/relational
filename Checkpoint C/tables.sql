@@ -1,0 +1,1 @@
+/* Scripts to create tables in the database */
