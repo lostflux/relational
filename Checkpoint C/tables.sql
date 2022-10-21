@@ -94,9 +94,9 @@ CREATE TABLE Author
 
 CREATE TABLE Manuscript
   (
-    manuscript_number     INT           NOT NULL  PRIMARY KEY   AUTO_INCREMENT,
+    manuscript_number INT            NOT NULL  PRIMARY KEY   AUTO_INCREMENT,
     title             VARCHAR(255)   NOT NULL,
-    date_received     DATE          NOT NULL,
+    date_received     DATE           NOT NULL,
     status            VARCHAR(45),
     page_count        INT,
     date_accepted     DATE,
@@ -142,7 +142,7 @@ CREATE TABLE Reviewer_has_Manuscript
     experimental              INT   CHECK (experimental >= 1    AND experimental <= 10),
     recommendation            INT   CHECK (recommendation >= 1  AND recommendation <= 10),
     feedback_date             DATE,
-    PRIMARY KEY               (Reviewer_reviewer_ID, Manuscript_manuscript_number),
+    PRIMARY KEY   (Reviewer_reviewer_ID, Manuscript_manuscript_number),
     FOREIGN KEY   (Reviewer_reviewer_ID)      REFERENCES Reviewer(reviewer_ID),
     FOREIGN KEY   (Manuscript_manuscript_number)  REFERENCES Manuscript(manuscript_number)
   );
