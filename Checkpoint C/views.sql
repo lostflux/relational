@@ -45,23 +45,23 @@ CREATE VIEW AnyAuthorManuscripts AS
     ;
 
 
-DROP VIEW IF EXISTS PublishedIssues;
-CREATE VIEW AnyAuthorManuscripts AS
-    SELECT 
-        Author.author_id,
-        Author.f_name,
-        Author.l_name,
-        Manuscript.manuscript_number,
-        Manuscript.title,
-        Manuscript.status,
-        Manuscript.status_change_date
-    FROM
-        Authors,
-        Manuscript_author,
-        Manuscript
-    WHERE
-        Author.author_id = Manuscript_author.author_id
-        AND Manuscript_author.manuscript_number = Manuscript.manuscript_number
-    ORDER BY 
-        Author.l_name DESC,
-        Manuscript.status_change_date ASC
+-- DROP VIEW IF EXISTS PublishedIssues;
+-- CREATE VIEW AnyAuthorManuscripts AS
+--     SELECT 
+--         Author.author_id,
+--         Author.f_name,
+--         Author.l_name,
+--         Manuscript.manuscript_number,
+--         Manuscript.title,
+--         Manuscript.status,
+--         Manuscript.status_change_date
+--     FROM
+--         Authors,
+--         Manuscript_author,
+--         Manuscript
+--     WHERE
+--         Author.author_id = Manuscript_author.author_id
+--         AND Manuscript_author.manuscript_number = Manuscript.manuscript_number
+--     ORDER BY 
+--         Author.l_name DESC,
+--         Manuscript.status_change_date ASC
