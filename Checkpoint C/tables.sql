@@ -14,7 +14,7 @@
  
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS RICode;
+DROP TABLE IF EXISTS RICodes;
 DROP TABLE IF EXISTS Affiliation;
 DROP TABLE IF EXISTS Journal;
 DROP TABLE IF EXISTS Issue;
@@ -34,7 +34,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- starting with those that have no foreign keys.
 
 
-CREATE TABLE RICode
+CREATE TABLE RICodes
   (
     code      INT   NOT NULL  PRIMARY KEY   AUTO_INCREMENT,
     interest  VARCHAR(45)
@@ -49,8 +49,7 @@ CREATE TABLE Affiliation
 CREATE TABLE Journal
   (
     journal_ID    INT   NOT NULL      PRIMARY KEY AUTO_INCREMENT,
-    RICode_code   INT,
-    FOREIGN KEY   (RICode_code)       REFERENCES RICode(code)
+    journal_name   VARCHAR(45)
   );
 
 CREATE TABLE Issue
@@ -86,7 +85,7 @@ CREATE TABLE Reviewer
 CREATE TABLE Author
   (
     author_ID                   INT   NOT NULL  PRIMARY KEY   AUTO_INCREMENT,
-    Affiliation_affiliation_ID  INT   NOT NULL,
+    Affiliation_affiliation_ID  INT,
     f_name                      VARCHAR(45),
     l_name                      VARCHAR(45),
     email                       VARCHAR(45),
@@ -95,16 +94,16 @@ CREATE TABLE Author
 
 CREATE TABLE Manuscript
   (
-    manuscript_NO     INT           NOT NULL  PRIMARY KEY   AUTO_INCREMENT,
-    title             VARCHAR(45)   NOT NULL,
-    date_received     DATE          NOT NULL,
+    manuscript_number INT            NOT NULL  PRIMARY KEY   AUTO_INCREMENT,
+    title             VARCHAR(255)   NOT NULL,
+    date_received     DATE           NOT NULL,
     status            VARCHAR(45),
     page_count        INT,
     date_accepted     DATE,
-    RICode_code       INT,
+    RICodes_code       INT,
     Editor_editor_ID  INT,
     Issue_issue_ID    INT,
-    FOREIGN KEY       (RICode_code)       REFERENCES RICode(code),
+    FOREIGN KEY       (RICodes_code)       REFERENCES RICodes(code),
     FOREIGN KEY       (Editor_editor_ID)  REFERENCES Editor(editor_ID),
     FOREIGN KEY       (Issue_issue_ID)    REFERENCES Issue(issue_ID)
   );
@@ -115,27 +114,27 @@ CREATE TABLE Manuscript
 
 CREATE TABLE Manuscript_Author
   (
-    Manuscript_manuscript_NO  INT   NOT NULL,
+    Manuscript_manuscript_number  INT   NOT NULL,
     Author_author_ID          INT   NOT NULL,
     author_ordinal            INT,
-    PRIMARY KEY   (Manuscript_manuscript_NO, Author_author_ID),
-    FOREIGN KEY   (Manuscript_manuscript_NO)  REFERENCES Manuscript(manuscript_NO),
+    PRIMARY KEY   (Manuscript_manuscript_number, Author_author_ID),
+    FOREIGN KEY   (Manuscript_manuscript_number)  REFERENCES Manuscript(manuscript_number),
     FOREIGN KEY   (Author_author_ID)          REFERENCES Author(author_ID)
   );
 
 CREATE TABLE Journal_has_RICodes
   (
     Journal_journal_ID  INT   NOT NULL,
-    RICode_code         INT   NOT NULL,
-    PRIMARY KEY         (Journal_journal_ID, RICode_code),
+    RICodes_code         INT   NOT NULL,
+    PRIMARY KEY         (Journal_journal_ID, RICodes_code),
     FOREIGN KEY   (Journal_journal_ID)  REFERENCES Journal(journal_ID),
-    FOREIGN KEY   (RICode_code)         REFERENCES RICode(code)
+    FOREIGN KEY   (RICodes_code)         REFERENCES RICodes(code)
   );
 
 CREATE TABLE Reviewer_has_Manuscript
   (
     Reviewer_reviewer_ID      INT   NOT NULL,
-    Manuscript_manuscript_NO  INT   NOT NULL,
+    Manuscript_manuscript_number  INT   NOT NULL,
     date_sent                 DATE,
     appropriateness           INT   CHECK (appropriateness >= 1 AND appropriateness <= 10),
     clarity                   INT   CHECK (clarity >= 1         AND clarity <= 10),
@@ -143,7 +142,7 @@ CREATE TABLE Reviewer_has_Manuscript
     experimental              INT   CHECK (experimental >= 1    AND experimental <= 10),
     recommendation            INT   CHECK (recommendation >= 1  AND recommendation <= 10),
     feedback_date             DATE,
-    PRIMARY KEY               (Reviewer_reviewer_ID, Manuscript_manuscript_NO),
+    PRIMARY KEY   (Reviewer_reviewer_ID, Manuscript_manuscript_number),
     FOREIGN KEY   (Reviewer_reviewer_ID)      REFERENCES Reviewer(reviewer_ID),
-    FOREIGN KEY   (Manuscript_manuscript_NO)  REFERENCES Manuscript(manuscript_NO)
+    FOREIGN KEY   (Manuscript_manuscript_number)  REFERENCES Manuscript(manuscript_number)
   );
