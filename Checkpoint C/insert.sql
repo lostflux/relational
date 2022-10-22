@@ -221,18 +221,18 @@ VALUES
   ("felis.orci@hotmail.couk","Leach","Brianna",7);
 
 -- number of manuscript: 200
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id,page_number)
 VALUES
-  ("fringilla euismod enim. Etiam gravida molestie arcu.","2021-11-13","in typesetting",6,"2021-04-05",3,2,9),
-  ("eu, ultrices sit amet, risus. Donec","2022-06-11","schedule for publication",17,"2024-07-06",8,4,3),
-  ("convallis dolor. Quisque tincidunt pede ac urna. Ut","2021-09-25","accepted",8,"2022-01-24",4,12,4),
-  ("augue porttitor interdum. Sed auctor","2021-12-18","in typesetting",18,"2021-02-23",7,2,3),
-  ("a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis","2022-04-17","rejected",18,"2021-12-19",6,1,10),
-  ("non massa non ante bibendum ullamcorper. Duis cursus,","2022-06-04","rejected",8,"2024-06-19",9,1,5),
-  ("mollis. Integer tincidunt aliquam arcu. Aliquam ultrices","2021-04-11","rejected",7,"2021-01-31",10,12,4),
-  ("neque. In ornare sagittis felis. Donec","2024-06-09","under review",12,"2022-04-15",3,10,9),
-  ("luctus felis purus ac tellus. Suspendisse sed","2021-08-15","rejected",12,"2021-06-23",5,10,10),
-  ("dapibus quam quis diam. Pellentesque","2021-12-16","accepted",14,"2022-09-23",10,3,10);
+  ("fringilla euismod enim. Etiam gravida molestie arcu.","2021-11-13","in typesetting",6,"2021-04-05",3,2,9,1),
+  ("eu, ultrices sit amet, risus. Donec","2022-06-11","schedule for publication",17,"2024-07-06",8,4,3,27),
+  ("convallis dolor. Quisque tincidunt pede ac urna. Ut","2021-09-25","accepted",8,"2022-01-24",4,12,4,5),
+  ("augue porttitor interdum. Sed auctor","2021-12-18","in typesetting",18,"2021-02-23",7,2,3,13),
+  ("a, facilisis non, bibendum sed, est. Nunc laoreet lectus quis","2022-04-17","rejected",18,"2021-12-19",6,1,10,22),
+  ("non massa non ante bibendum ullamcorper. Duis cursus,","2022-06-04","rejected",8,"2024-06-19",9,1,5,50),
+  ("mollis. Integer tincidunt aliquam arcu. Aliquam ultrices","2021-04-11","rejected",7,"2021-01-31",10,12,4,57),
+  ("neque. In ornare sagittis felis. Donec","2024-06-09","under review",12,"2022-04-15",3,10,9,77),
+  ("luctus felis purus ac tellus. Suspendisse sed","2021-08-15","rejected",12,"2021-06-23",5,10,10,81),
+  ("dapibus quam quis diam. Pellentesque","2021-12-16","accepted",14,"2022-09-23",10,3,10,100);
 INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("mauris ipsum porta elit, a feugiat tellus lorem eu","2024-01-07","rejected",15,"2021-09-15",6,8,4),
@@ -855,23 +855,18 @@ VALUES
   (148,5,1),
   (41,22,2),
   (90,47,2),
-  (118,46,2),
   (190,26,3),
   (119,9,4),
   (76,34,4),
   (123,13,3),
-  (93,52,1),
-  (42,18,4);
+  (93,52,1);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
-  (103,1,2),
-  (4,57,4),
   (176,25,4),
   (103,37,2),
   (72,15,3),
   (159,13,3),
   (122,2,1),
-  (42,47,4),
   (143,11,3),
   (151,13,3);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
@@ -889,13 +884,10 @@ VALUES
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (171,28,3),
-  (144,38,4),
   (150,42,3),
   (135,22,3),
-  (38,15,3),
   (95,34,3),
   (117,4,2),
-  (90,1,2),
   (17,31,1),
   (115,33,5);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
@@ -927,7 +919,6 @@ VALUES
   (170,39,1),
   (4,18,1),
   (129,51,2),
-  (1,49,4),
   (69,47,4),
   (61,33,2),
   (97,24,1),
@@ -937,7 +928,6 @@ VALUES
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (90,7,4),
-  (93,40,1),
   (198,4,2),
   (113,21,3),
   (184,39,2),
@@ -948,9 +938,7 @@ VALUES
   (162,25,3);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
-  (41,25,2),
   (59,7,4),
-  (4,39,1),
   (133,28,3),
   (122,35,3),
   (42,28,5),
@@ -961,13 +949,11 @@ VALUES
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (111,33,2),
-  (92,15,1),
   (83,16,4),
   (93,13,2),
   (49,56,1),
   (118,38,4),
   (53,21,4),
-  (189,53,3),
   (194,10,1),
   (79,13,2);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
@@ -978,19 +964,15 @@ VALUES
   (125,9,3),
   (31,39,5),
   (179,41,3),
-  (95,12,2),
   (164,15,4),
-  (73,3,2),
-  (42,10,5);
+  (73,3,2);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (95,31,4),
   (44,54,4),
   (129,37,5),
-  (64,49,5),
   (149,35,3),
   (139,9,3),
-  (166,16,4),
   (136,8,3),
   (30,42,4),
   (104,17,1);
@@ -1001,7 +983,6 @@ VALUES
   (158,39,5),
   (45,47,4),
   (36,31,2),
-  (105,46,2),
   (60,40,4),
   (122,44,4),
   (54,5,3),
@@ -1032,7 +1013,6 @@ VALUES
   (19,33,1);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
-  (93,54,1),
   (66,54,4),
   (115,3,2),
   (12,31,5),
@@ -1044,11 +1024,9 @@ VALUES
   (195,42,4);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
-  (27,25,2),
   (177,48,3),
   (181,31,1),
   (165,10,1),
-  (122,32,1),
   (96,23,2),
   (27,54,1),
   (53,42,2),
@@ -1061,7 +1039,6 @@ VALUES
   (38,57,2),
   (7,48,3),
   (85,17,4),
-  (164,11,3),
   (192,28,5),
   (82,16,2),
   (160,10,4),
@@ -1082,7 +1059,6 @@ INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Aut
 VALUES
   (182,20,3),
   (153,21,2),
-  (17,22,1),
   (48,42,3),
   (185,50,2),
   (2,21,5),
@@ -1094,33 +1070,22 @@ INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Aut
 VALUES
   (58,30,3),
   (13,12,1),
-  (135,48,3),
   (87,43,4),
   (144,39,3),
   (186,18,3),
-  (49,10,1),
   (18,16,4),
   (128,25,1),
   (178,46,3);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
-  (76,44,4),
   (127,15,2),
   (97,40,5),
-  (104,18,1),
-  (198,3,2),
   (55,48,2),
   (5,43,4),
-  (153,14,5),
-  (153,29,2),
-  (164,42,4);
+  (153,14,5);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
-  (183,42,4),
   (31,30,3),
-  (61,44,2),
-  (194,58,1),
-  (133,15,3),
   (66,8,3),
   (96,15,5),
   (108,8,5),
@@ -1131,33 +1096,22 @@ VALUES
   (6,36,3),
   (109,49,2),
   (89,32,2),
-  (43,58,3),
   (196,20,1),
   (64,18,2),
   (18,52,3),
-  (45,5,4),
   (158,34,2);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
-  (172,48,3),
   (156,20,2),
   (80,28,4),
   (13,11,3),
-  (36,15,4),
-  (26,10,3),
-  (161,5,5),
-  (123,17,3),
-  (159,40,3),
-  (61,37,2);
+  (161,5,5);
 INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (139,57,4),
   (123,16,1),
   (91,52,2),
-  (104,5,2),
   (7,2,5),
   (120,19,5),
-  (32,15,3),
-  (34,2,3),
   (75,25,5),
   (108,43,1);
