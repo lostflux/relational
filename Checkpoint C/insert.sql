@@ -1,7 +1,35 @@
-/* Script to insert test data into the database */
--- DROP TABLE IF EXISTS Issue;
+/*
+  Script to insert test data into the database 
+  Author: Ke Lou, Amittai Siavava
+ */
 
--- number of issues:: 10
+
+-- First, clear all data (if any) from the tables
+
+DELETE FROM Manuscript_Author;
+DELETE FROM Journal_has_RICodes;
+DELETE FROM Reviewer_has_Manuscript;
+DELETE FROM Manuscript;
+DELETE FROM RICodes;
+DELETE FROM Issue;
+DELETE FROM Editor;
+DELETE FROM Reviewer;
+DELETE FROM Affiliation;
+DELETE FROM Journal;
+DELETE FROM Author;
+
+-- Reset auto-increment counters
+ALTER TABLE Manuscript  AUTO_INCREMENT = 1;
+ALTER TABLE RICodes     AUTO_INCREMENT = 1;
+ALTER TABLE Issue       AUTO_INCREMENT = 1;
+ALTER TABLE Editor      AUTO_INCREMENT = 1;
+ALTER TABLE Reviewer    AUTO_INCREMENT = 1;
+ALTER TABLE Affiliation AUTO_INCREMENT = 1;
+ALTER TABLE Journal     AUTO_INCREMENT = 1;
+ALTER TABLE Author      AUTO_INCREMENT = 1;
+
+-- Insert data into the tables
+-- number of issues: 10
 INSERT INTO Issue (year,period,publication_date)
 VALUES
   (2022,1,"2022-01-12"),
