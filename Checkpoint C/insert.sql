@@ -220,8 +220,8 @@ VALUES
   ("tristique.aliquet@yahoo.net","Eaton","Colin",6),
   ("felis.orci@hotmail.couk","Leach","Brianna",7);
 
--- number of manuscript: 200
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id,page_number)
+-- number of manuscript: 200 
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id,page_number)
 VALUES
   ("fringilla euismod enim. Etiam gravida molestie arcu.","2021-11-13","in typesetting",6,"2021-04-05",3,2,9,1),
   ("eu, ultrices sit amet, risus. Donec","2022-06-11","schedule for publication",17,"2024-07-06",8,4,3,27),
@@ -233,7 +233,7 @@ VALUES
   ("neque. In ornare sagittis felis. Donec","2024-06-09","under review",12,"2022-04-15",3,10,9,77),
   ("luctus felis purus ac tellus. Suspendisse sed","2021-08-15","rejected",12,"2021-06-23",5,10,10,81),
   ("dapibus quam quis diam. Pellentesque","2021-12-16","accepted",14,"2022-09-23",10,3,10,100);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("mauris ipsum porta elit, a feugiat tellus lorem eu","2024-01-07","rejected",15,"2021-09-15",6,8,4),
   ("Integer vitae nibh. Donec est mauris, rhoncus id, mollis nec,","2021-12-05","in typesetting",8,"2024-05-27",6,4,10),
@@ -245,7 +245,7 @@ VALUES
   ("Duis volutpat nunc sit amet","2022-07-04","under review",15,"2024-05-26",4,11,9),
   ("mi lacinia mattis. Integer eu","2024-02-03","accepted",10,"2024-06-09",5,12,8),
   ("leo. Cras vehicula aliquet libero. Integer in magna.","2021-08-19","schedule for publication",12,"2022-09-26",8,8,4);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("tincidunt pede ac urna. Ut tincidunt","2022-04-15","under review",11,"2021-03-03",3,1,5),
   ("placerat, augue. Sed molestie. Sed id","2021-11-21","under review",19,"2022-04-27",4,8,7),
@@ -257,7 +257,7 @@ VALUES
   ("Suspendisse sagittis. Nullam vitae diam. Proin dolor.","2021-02-26","rejected",8,"2022-01-11",5,1,3),
   ("In scelerisque scelerisque dui. Suspendisse ac metus vitae","2021-10-23","accepted",13,"2022-08-17",7,5,4),
   ("tortor at risus. Nunc ac sem ut","2024-04-08","ready",8,"2024-05-04",8,4,4);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("sit amet luctus vulputate,","2022-03-06","accepted",17,"2021-02-10",10,13,2),
   ("feugiat nec, diam. Duis mi enim,","2022-07-16","submitted",9,"2021-07-30",1,11,3),
@@ -269,7 +269,7 @@ VALUES
   ("quis, pede. Suspendisse dui. Fusce diam nunc,","2021-12-31","ready",19,"2024-08-12",1,4,5),
   ("consectetuer adipiscing elit. Curabitur sed tortor. Integer aliquam","2024-01-23","in typesetting",7,"2022-07-06",8,10,1),
   ("Donec non justo. Proin non massa non ante","2022-11-01","in typesetting",11,"2021-12-18",7,10,1);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("Proin vel arcu eu odio","2022-11-12","schedule for publication",13,"2021-11-18",2,9,6),
   ("erat eget ipsum. Suspendisse","2021-04-02","rejected",12,"2022-12-26",9,6,8),
@@ -281,7 +281,7 @@ VALUES
   ("non, sollicitudin a, malesuada id, erat. Etiam vestibulum","2021-04-29","ready",10,"2021-02-24",4,11,5),
   ("lectus pede et risus. Quisque libero lacus, varius et,","2022-05-08","ready",8,"2022-09-15",4,11,2),
   ("bibendum sed, est. Nunc laoreet lectus quis","2021-07-24","accepted",12,"2024-05-23",5,14,2);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("purus, in molestie tortor nibh sit amet orci. Ut","2022-10-30","ready",9,"2022-07-19",8,1,7),
   ("vulputate velit eu sem. Pellentesque ut ipsum ac","2021-03-11","under review",13,"2024-07-20",2,4,1),
@@ -293,7 +293,7 @@ VALUES
   ("fermentum fermentum arcu. Vestibulum ante ipsum primis","2021-01-29","under review",13,"2021-01-22",7,2,2),
   ("hendrerit a, arcu. Sed et libero.","2021-07-17","rejected",8,"2021-03-16",5,8,1),
   ("erat nonummy ultricies ornare, elit elit fermentum","2024-05-04","in typesetting",11,"2022-07-04",10,4,1);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("augue porttitor interdum. Sed auctor odio a","2021-05-10","rejected",8,"2024-08-17",7,1,4),
   ("et magnis dis parturient montes, nascetur","2024-02-23","in typesetting",18,"2022-12-10",5,7,4),
@@ -305,7 +305,7 @@ VALUES
   ("aliquet lobortis, nisi nibh","2024-05-19","under review",15,"2021-01-31",3,12,5),
   ("nec, imperdiet nec, leo.","2022-11-29","ready",16,"2021-07-15",8,10,9),
   ("a, scelerisque sed, sapien. Nunc pulvinar arcu et pede.","2024-08-12","accepted",11,"2021-12-14",5,5,2);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("diam lorem, auctor quis,","2021-11-01","rejected",7,"2021-12-05",5,9,8),
   ("non enim. Mauris quis turpis","2021-01-23","under review",6,"2021-09-15",1,12,9),
@@ -317,7 +317,7 @@ VALUES
   ("placerat. Cras dictum ultricies ligula. Nullam enim. Sed nulla","2021-02-04","ready",18,"2021-01-24",10,13,9),
   ("interdum enim non nisi. Aenean","2021-11-30","schedule for publication",19,"2021-10-23",9,4,2),
   ("dictum placerat, augue. Sed molestie. Sed id risus","2021-09-16","in typesetting",18,"2022-03-28",9,6,1);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("tortor. Nunc commodo auctor velit. Aliquam nisl. Nulla eu","2021-04-13","in typesetting",5,"2021-09-29",4,13,1),
   ("euismod in, dolor. Fusce feugiat. Lorem ipsum dolor sit amet,","2022-11-03","ready",14,"2022-02-06",8,5,7),
@@ -329,7 +329,7 @@ VALUES
   ("neque. Nullam nisl. Maecenas malesuada fringilla est. Mauris","2022-03-20","rejected",15,"2024-07-23",10,4,7),
   ("Aenean eget magna. Suspendisse tristique neque venenatis lacus. Etiam","2021-09-22","in typesetting",7,"2021-08-14",1,12,5),
   ("convallis, ante lectus convallis","2021-03-20","ready",17,"2024-04-13",1,4,1);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("dui augue eu tellus. Phasellus elit pede, malesuada vel, venenatis","2022-10-05","accepted",5,"2021-01-19",4,9,8),
   ("sit amet, risus. Donec nibh","2021-04-07","accepted",19,"2021-04-09",3,2,7),
@@ -341,7 +341,7 @@ VALUES
   ("dui. Fusce diam nunc, ullamcorper eu,","2021-04-09","rejected",13,"2024-03-22",7,4,3),
   ("Cras eget nisi dictum augue malesuada malesuada. Integer","2022-05-01","rejected",16,"2021-10-22",9,1,1),
   ("magna. Phasellus dolor elit, pellentesque a, facilisis non, bibendum","2022-08-25","ready",17,"2022-04-26",6,9,3);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("mauris sit amet lorem semper auctor. Mauris vel turpis.","2022-12-18","under review",10,"2022-12-01",3,12,1),
   ("Pellentesque tincidunt tempus risus. Donec egestas. Duis ac arcu. Nunc","2021-01-25","in typesetting",7,"2022-04-13",4,3,5),
@@ -353,7 +353,7 @@ VALUES
   ("blandit enim consequat purus.","2024-01-04","accepted",10,"2021-07-23",5,10,6),
   ("felis eget varius ultrices, mauris","2021-10-04","ready",17,"2022-02-02",6,8,2),
   ("Donec non justo. Proin non massa non","2022-07-22","under review",20,"2021-03-18",10,13,4);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("vitae semper egestas, urna justo","2022-08-19","rejected",14,"2022-11-30",1,13,6),
   ("mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare,","2024-03-02","under review",9,"2021-08-17",5,11,9),
@@ -365,7 +365,7 @@ VALUES
   ("sagittis. Nullam vitae diam. Proin dolor. Nulla semper tellus id","2022-09-16","accepted",14,"2021-04-01",1,7,10),
   ("tempor augue ac ipsum. Phasellus vitae mauris","2021-03-08","accepted",14,"2021-10-21",7,5,1),
   ("scelerisque mollis. Phasellus libero mauris, aliquam eu, accumsan sed,","2021-11-25","under review",11,"2024-01-16",2,4,3);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("porttitor tellus non magna. Nam ligula elit, pretium","2022-12-23","accepted",5,"2022-08-07",6,11,6),
   ("feugiat tellus lorem eu metus.","2022-03-05","rejected",13,"2022-04-26",3,9,6),
@@ -377,7 +377,7 @@ VALUES
   ("Nunc lectus pede, ultrices a, auctor non, feugiat nec,","2021-10-31","under review",11,"2024-02-25",9,4,7),
   ("tellus. Suspendisse sed dolor. Fusce","2021-08-17","schedule for publication",11,"2021-12-21",5,4,2),
   ("interdum enim non nisi. Aenean eget","2021-03-29","schedule for publication",12,"2022-08-14",7,11,1);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("a odio semper cursus. Integer mollis. Integer","2022-01-10","in typesetting",14,"2021-03-05",9,12,1),
   ("purus sapien, gravida non, sollicitudin a, malesuada id, erat.","2024-08-01","rejected",8,"2022-12-04",2,10,6),
@@ -389,7 +389,7 @@ VALUES
   ("tristique senectus et netus et malesuada fames ac","2021-02-23","accepted",9,"2022-05-07",7,5,4),
   ("placerat, orci lacus vestibulum lorem, sit amet ultricies","2021-10-12","in typesetting",9,"2021-12-18",9,6,2),
   ("bibendum ullamcorper. Duis cursus, diam at","2022-04-29","submitted",20,"2024-03-13",2,10,9);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("sem. Pellentesque ut ipsum ac mi","2021-12-15","rejected",8,"2021-01-31",1,4,9),
   ("interdum. Sed auctor odio a purus. Duis","2024-01-26","in typesetting",17,"2022-04-05",3,7,1),
@@ -401,7 +401,7 @@ VALUES
   ("penatibus et magnis dis","2021-07-04","ready",8,"2024-06-24",1,9,2),
   ("egestas. Sed pharetra, felis eget varius","2021-01-20","rejected",8,"2022-10-14",4,13,6),
   ("risus a ultricies adipiscing, enim mi tempor lorem, eget","2022-06-13","in typesetting",8,"2024-05-11",2,5,5);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("a feugiat tellus lorem eu metus. In lorem. Donec","2021-12-21","in typesetting",6,"2022-03-05",6,12,6),
   ("et malesuada fames ac turpis egestas. Fusce","2021-03-29","rejected",7,"2024-03-20",7,11,7),
@@ -413,7 +413,7 @@ VALUES
   ("egestas a, dui. Cras pellentesque.","2024-08-27","under review",11,"2024-04-15",4,7,7),
   ("Integer tincidunt aliquam arcu. Aliquam ultrices","2021-11-15","in typesetting",8,"2022-06-21",9,8,6),
   ("egestas. Fusce aliquet magna a neque. Nullam","2021-01-31","submitted",15,"2021-12-27",2,1,6);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("et magnis dis parturient montes, nascetur ridiculus mus. Proin vel","2021-11-03","under review",9,"2022-10-14",2,6,3),
   ("eros. Nam consequat dolor vitae dolor. Donec","2022-10-15","accepted",17,"2022-06-21",8,8,6),
@@ -425,7 +425,7 @@ VALUES
   ("adipiscing fringilla, porttitor vulputate, posuere vulputate, lacus. Cras interdum.","2022-10-22","in typesetting",15,"2021-02-09",2,11,8),
   ("elit erat vitae risus. Duis a","2021-05-06","submitted",12,"2022-03-19",8,5,2),
   ("a sollicitudin orci sem eget massa. Suspendisse eleifend. Cras","2022-06-06","submitted",19,"2022-04-30",3,13,6);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("nisi a odio semper cursus. Integer mollis. Integer tincidunt aliquam","2024-01-08","accepted",15,"2021-08-21",7,13,8),
   ("egestas nunc sed libero. Proin sed turpis nec mauris blandit","2021-03-04","ready",15,"2022-02-15",4,10,8),
@@ -437,7 +437,7 @@ VALUES
   ("vitae, sodales at, velit. Pellentesque ultricies dignissim lacus. Aliquam rutrum","2022-07-03","rejected",5,"2022-03-23",2,1,4),
   ("amet lorem semper auctor. Mauris vel turpis. Aliquam adipiscing","2022-01-28","accepted",11,"2021-06-05",3,3,10),
   ("ornare, elit elit fermentum risus, at fringilla purus","2021-11-12","rejected",17,"2022-02-23",7,7,5);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("imperdiet nec, leo. Morbi neque tellus, imperdiet non, vestibulum","2022-02-28","schedule for publication",19,"2021-02-08",2,8,1),
   ("egestas, urna justo faucibus","2022-07-07","under review",6,"2021-08-15",6,14,1),
@@ -449,7 +449,7 @@ VALUES
   ("aliquet, metus urna convallis erat, eget tincidunt dui augue eu","2021-12-09","in typesetting",18,"2021-03-23",5,9,1),
   ("diam luctus lobortis. Class aptent taciti sociosqu ad litora","2021-11-14","in typesetting",8,"2024-08-08",5,4,8),
   ("Sed diam lorem, auctor quis,","2021-04-20","under review",15,"2024-07-22",8,12,3);
-INSERT INTO Manuscript (title,date_received,status,page_count,date_accepted,RICodes_code,Editor_editor_id,Issue_issue_id)
+INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id)
 VALUES
   ("aliquam arcu. Aliquam ultrices iaculis odio. Nam interdum","2024-07-16","submitted",9,"2022-10-04",3,9,3),
   ("primis in faucibus orci luctus et ultrices posuere","2024-08-07","rejected",20,"2022-11-27",4,10,6),

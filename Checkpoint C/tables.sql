@@ -101,6 +101,7 @@ CREATE TABLE Manuscript
     page_number       INT,
     page_count        INT,
     date_accepted     DATE,
+    status_change_date DATE,
     RICodes_code      INT,
     Editor_editor_ID  INT,
     Issue_issue_ID    INT,
