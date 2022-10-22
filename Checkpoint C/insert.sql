@@ -18,6 +18,7 @@ DELETE FROM Affiliation;
 DELETE FROM Journal;
 DELETE FROM Author;
 
+SET SQL_SAFE_UPDATES = 0;
 -- Reset auto-increment counters
 ALTER TABLE Manuscript  AUTO_INCREMENT = 1;
 ALTER TABLE RICodes     AUTO_INCREMENT = 1;
@@ -801,8 +802,8 @@ VALUES
   (18,7),
   (19,7);
 
--- number of Manuscript_author:: 300
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+-- number of Manuscript_Author:: 300
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (42,4,4),
   (41,9,3),
@@ -814,7 +815,7 @@ VALUES
   (1,15,4),
   (50,21,3),
   (198,23,4);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (68,12,2),
   (189,3,3),
@@ -826,7 +827,7 @@ VALUES
   (16,16,1),
   (84,22,3),
   (64,31,3);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (60,32,1),
   (62,20,3),
@@ -838,7 +839,7 @@ VALUES
   (144,12,4),
   (160,23,2),
   (95,1,2);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (27,30,2),
   (43,46,3),
@@ -850,7 +851,7 @@ VALUES
   (188,28,3),
   (77,1,5),
   (27,20,5);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (148,5,1),
   (41,22,2),
@@ -860,7 +861,7 @@ VALUES
   (76,34,4),
   (123,13,3),
   (93,52,1);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (176,25,4),
   (103,37,2),
@@ -869,7 +870,7 @@ VALUES
   (122,2,1),
   (143,11,3),
   (151,13,3);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (116,9,4),
   (190,23,4),
@@ -881,7 +882,7 @@ VALUES
   (57,16,2),
   (13,46,5),
   (7,57,2);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (171,28,3),
   (150,42,3),
@@ -890,7 +891,7 @@ VALUES
   (117,4,2),
   (17,31,1),
   (115,33,5);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (153,17,1),
   (41,23,4),
@@ -902,7 +903,7 @@ VALUES
   (185,48,1),
   (98,44,2),
   (132,16,2);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (112,18,3),
   (29,22,4),
@@ -914,7 +915,7 @@ VALUES
   (6,8,4),
   (81,18,5),
   (164,24,3);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (170,39,1),
   (4,18,1),
@@ -925,7 +926,7 @@ VALUES
   (48,20,1),
   (71,41,2),
   (83,57,1);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (90,7,4),
   (198,4,2),
@@ -936,7 +937,7 @@ VALUES
   (32,25,3),
   (83,51,2),
   (162,25,3);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (59,7,4),
   (133,28,3),
@@ -946,7 +947,7 @@ VALUES
   (174,24,2),
   (190,13,5),
   (123,12,5);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (111,33,2),
   (83,16,4),
@@ -956,7 +957,7 @@ VALUES
   (53,21,4),
   (194,10,1),
   (79,13,2);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (57,23,4),
   (38,32,5),
@@ -966,7 +967,7 @@ VALUES
   (179,41,3),
   (164,15,4),
   (73,3,2);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (95,31,4),
   (44,54,4),
@@ -976,7 +977,7 @@ VALUES
   (136,8,3),
   (30,42,4),
   (104,17,1);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (98,17,4),
   (172,52,3),
@@ -987,7 +988,7 @@ VALUES
   (122,44,4),
   (54,5,3),
   (66,56,1);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (150,10,1),
   (193,11,4),
@@ -999,7 +1000,7 @@ VALUES
   (189,52,4),
   (36,29,4),
   (33,19,1);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (131,36,4),
   (3,5,1),
@@ -1011,7 +1012,7 @@ VALUES
   (169,20,5),
   (196,39,2),
   (19,33,1);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (66,54,4),
   (115,3,2),
@@ -1022,7 +1023,7 @@ VALUES
   (34,9,3),
   (37,5,1),
   (195,42,4);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (177,48,3),
   (181,31,1),
@@ -1032,7 +1033,7 @@ VALUES
   (53,42,2),
   (69,55,1),
   (79,5,4);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (163,26,5),
   (137,46,3),
@@ -1043,7 +1044,7 @@ VALUES
   (82,16,2),
   (160,10,4),
   (191,59,1);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (61,5,3),
   (9,27,3),
@@ -1055,7 +1056,7 @@ VALUES
   (127,41,3),
   (15,1,5),
   (13,24,2);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (182,20,3),
   (153,21,2),
@@ -1066,7 +1067,7 @@ VALUES
   (47,13,5),
   (56,21,4),
   (153,12,4);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (58,30,3),
   (13,12,1),
@@ -1076,14 +1077,14 @@ VALUES
   (18,16,4),
   (128,25,1),
   (178,46,3);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (127,15,2),
   (97,40,5),
   (55,48,2),
   (5,43,4),
   (153,14,5);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (31,30,3),
   (66,8,3),
@@ -1091,7 +1092,7 @@ VALUES
   (108,8,5),
   (101,45,1),
   (165,30,2);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (6,36,3),
   (109,49,2),
@@ -1100,13 +1101,13 @@ VALUES
   (64,18,2),
   (18,52,3),
   (158,34,2);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (156,20,2),
   (80,28,4),
   (13,11,3),
   (161,5,5);
-INSERT INTO Manuscript_author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
 VALUES
   (139,57,4),
   (123,16,1),
