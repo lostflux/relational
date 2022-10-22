@@ -56,7 +56,7 @@ CREATE TABLE Issue
   (
     issue_ID            INT   NOT NULL  PRIMARY KEY   AUTO_INCREMENT,
     year                INT   NOT NULL,
-    period              INT   NOT NULL,
+    period              INT   NOT NULL CHECK (period >= 1 AND period <= 4),
     publication_date    DATE,
     Journal_journal_ID  INT,
     FOREIGN KEY         (Journal_journal_ID)  REFERENCES Journal(journal_ID)
@@ -98,12 +98,13 @@ CREATE TABLE Manuscript
     title             VARCHAR(255)   NOT NULL,
     date_received     DATE           NOT NULL,
     status            VARCHAR(45),
+    page_number       INT,
     page_count        INT,
     date_accepted     DATE,
-    RICodes_code       INT,
+    RICodes_code      INT,
     Editor_editor_ID  INT,
     Issue_issue_ID    INT,
-    FOREIGN KEY       (RICodes_code)       REFERENCES RICodes(code),
+    FOREIGN KEY       (RICodes_code)      REFERENCES RICodes(code),
     FOREIGN KEY       (Editor_editor_ID)  REFERENCES Editor(editor_ID),
     FOREIGN KEY       (Issue_issue_ID)    REFERENCES Issue(issue_ID)
   );
@@ -112,23 +113,26 @@ CREATE TABLE Manuscript
 --  Create helper tables for relationships.
 
 
+
+
 CREATE TABLE Manuscript_Author
   (
     Manuscript_manuscript_number  INT   NOT NULL,
-    Author_author_ID          INT   NOT NULL,
-    author_ordinal            INT,
+    Author_author_ID              INT   NOT NULL,
+    author_ordinal                INT,
     PRIMARY KEY   (Manuscript_manuscript_number, Author_author_ID),
     FOREIGN KEY   (Manuscript_manuscript_number)  REFERENCES Manuscript(manuscript_number),
-    FOREIGN KEY   (Author_author_ID)          REFERENCES Author(author_ID)
+    FOREIGN KEY   (Author_author_ID)              REFERENCES Author(author_ID),
+    UNIQUE        (Manuscript_manuscript_number, author_ordinal)
   );
 
 CREATE TABLE Journal_has_RICodes
   (
     Journal_journal_ID  INT   NOT NULL,
-    RICodes_code         INT   NOT NULL,
+    RICodes_code        INT   NOT NULL,
     PRIMARY KEY         (Journal_journal_ID, RICodes_code),
     FOREIGN KEY   (Journal_journal_ID)  REFERENCES Journal(journal_ID),
-    FOREIGN KEY   (RICodes_code)         REFERENCES RICodes(code)
+    FOREIGN KEY   (RICodes_code)        REFERENCES RICodes(code)
   );
 
 CREATE TABLE Reviewer_has_Manuscript
