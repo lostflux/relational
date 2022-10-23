@@ -1,6 +1,7 @@
 /* Script for definition of triggers in the database */
 
 /*
+  Trigger: AutoRejectManuscriptOnNoReviewers 
   When an author is submitting a new manuscript to the system
   with an ICode for which there is no reviewer 
   raise an exception that informs the author the paper
@@ -24,6 +25,58 @@ CREATE TRIGGER AutoRejectManuscriptOnNoReviewers
   END$$
 DELIMITER ;
 
+/*
+  Trigger: ResetManuscriptStatusonReviewerResign
+  When a reviewer resigns
+    any manuscript in “UnderReview” state
+    for which that reviewer was the only reviewer
+    AND
+    there is another reviewer in the system with the matching ICode
+    that isn’t assigned to review it,
+    that manuscript must be reset to “submitted”
+    state and an appropriate exception message displayed.
+*/
+
+DROP TRIGGER IF EXISTS ResetManuscriptStatusonReviewerResign;
+DELIMITER $$
+CREATE TRIGGER ResetManuscriptStatusonReviewerResign
+  BEFORE DELETE ON Reviewer_has_Manuscript
+  FOR EACH ROW
+  BEGIN
+    DECLARE current_reviewers_count INT;
+    DECLARE other_reviewers_count INT;
+    SELECT COUNT(*) INTO current_reviewers_count
+    FROM Reviewer_has_Manuscript
+    WHERE
+      Manuscript_manuscript_number = OLD.Manuscript_manuscript_number
+      AND Reviewer_reviewer_id != OLD.Reviewer_reviewer_id;
+    IF current_reviewers_count = 0 THEN
+      SELECT COUNT(*) INTO other_reviewers_count
+      FROM Reviewer
+      WHERE reviewer_id != OLD.Reviewer_reviewer_id
+      AND reviewer_id IN
+        (
+          SELECT Reviewer_reviewer_id
+          FROM Reviewer_has_RICodes
+          WHERE RICodes_code =
+            (
+              SELECT RICodes_code
+              FROM Manuscript
+              WHERE manuscript_number = OLD.Manuscript_manuscript_number
+            )
+        );
+      IF other_reviewers_count > 0 THEN
+        UPDATE Manuscript
+        SET status = 'submitted',
+        status_change_date = NOW()
+        WHERE manuscript_number = OLD.Manuscript_manuscript_number;
+      ELSE
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Sorry, we no longer have reviewers for this category.';
+      END IF;
+    END IF;
+  END$$
+DELIMITER ;
 
 /*
   Trigger: ManuscriptStatusChange

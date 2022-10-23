@@ -151,3 +151,12 @@ CREATE TABLE Reviewer_has_Manuscript
     FOREIGN KEY   (Reviewer_reviewer_ID)      REFERENCES Reviewer(reviewer_ID),
     FOREIGN KEY   (Manuscript_manuscript_number)  REFERENCES Manuscript(manuscript_number)
   );
+
+CREATE TABLE Reviewer_has_RICodes
+  (
+    Reviewer_reviewer_ID  INT   NOT NULL,
+    RICodes_code          INT   NOT NULL,
+    PRIMARY KEY   (Reviewer_reviewer_ID, RICodes_code),
+    FOREIGN KEY   (Reviewer_reviewer_ID)  REFERENCES Reviewer(reviewer_ID),
+    FOREIGN KEY   (RICodes_code)          REFERENCES RICodes(code)
+  );
