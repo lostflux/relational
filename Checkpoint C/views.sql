@@ -230,7 +230,7 @@ CREATE VIEW ReviewStatus AS
     Reviewer_has_Manuscript.clarity,
     Reviewer_has_Manuscript.methodology,
     Reviewer_has_Manuscript.experimental,
-    Reviewer_has_Manuscript.recommendation,
+    Reviewer_has_Manuscript.recommendation
   FROM
     Manuscript,
     Reviewer_has_Manuscript

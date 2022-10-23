@@ -1,5 +1,17 @@
 /* Script to setup procedures in the database */
 
+/* 
+    Procedure: MakeDecision
+    Purpose: Make a decision on a manuscript
+    Parameters: 
+        (1) manuscript number
+    Output: 
+        (1) A varchar indicating "Accepted" or "Rejected"
+    Logic:
+        Accept the manuscript if it scores larger or equal to 40
+        Reject the manuscript if it scores less than 40
+*/
+
 DROP PROCEDURE IF EXISTS MakeDecision;
 DELIMITER $$
 CREATE PROCEDURE MakeDecision(

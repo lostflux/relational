@@ -1,12 +1,11 @@
 /* Script for definition of triggers in the database */
 
-/*
-  Trigger: ManuscriptStatusChange
-  Purpose: When a manuscript's status is changed, update the status_change_date.
-  Permissions: Editor.
+/* 
+   Trigger: manuscript_become_accepted
+   Purpose: When a manuscript's status is changed to accepted
+            the status is immediately set to typesetting
+   Permissions: Editor.
 */
-SELECT COUNT(*) FROM Manuscript WHERE Manuscript.status = 'accepted';
-
 DROP TRIGGER IF EXISTS manuscript_become_accepted;
 DELIMITER $$
 CREATE TRIGGER manuscript_become_accepted
