@@ -6,6 +6,8 @@
   Authors: Amittai Siavava, Ke Lou
  */
 
+CREATE DATABASE IF NOT EXISTS `siavava_lou`;
+USE `siavava_lou`;
 
 -- First, clear the database.
 -- We turn off foreign-key checks
@@ -25,6 +27,8 @@ DROP TABLE IF EXISTS Manuscript_Author;
 DROP TABLE IF EXISTS Journal_has_RICodes;
 DROP TABLE IF EXISTS Reviewer_has_Manuscript;
 DROP TABLE IF EXISTS Manuscript;
+
+DROP TABLE IF EXISTS Reviewer_has_RICodes;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
