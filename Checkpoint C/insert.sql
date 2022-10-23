@@ -1116,3 +1116,13 @@ VALUES
   (120,19,5),
   (75,25,5),
   (108,43,1);
+
+INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
+VALUES
+  (18,50,1),
+  (58,23,1),
+  (68,32,1),
+  (72,32,1),
+  (85,23,1),
+  (86,9,1),
+  (87,50,1);
