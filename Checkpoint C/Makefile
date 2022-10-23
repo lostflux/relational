@@ -2,8 +2,13 @@
 #
 # Author: Amittai Siavava, Ke Lou
 
+
+# Please set this variable to the path to the directory containing
+# SQL files.
 DIR = "/Users/amittaijoel/workspace/db/psets/ps2/Checkpoint\ C"
-USERNAME = "sv"  # please change this to your username
+
+# Please set this variable to your mysql username.
+USERNAME = "sv"
 
 all: test
 
