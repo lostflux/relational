@@ -143,22 +143,7 @@ CREATE VIEW ReviewQueue AS
     status_change_date ASC,
     Author.author_id ASC;
 
-select * from ReviewQueue;
-
--- COUNT
-
--- DROP FUNCTION IF EXISTS CountManuscriptAuthors;
--- DELIMITER \\
--- CREATE FUNCTION CountManuscriptAuthors(manuscript_number INT)
--- RETURNS INT
--- READS SQL DATA
--- BEGIN
---   DECLARE cnt INT;
---   SELECT COUNT(*) INTO cnt FROM Manuscript_Author
---   WHERE Manuscript_manuscript_number = manuscript_number;
---   RETURN cnt;
--- END; \\
--- DELIMITER ;
+SELECT * FROM ReviewQueue;
 
 -- SELECT Manuscript_number, CountManuscriptAuthors(Manuscript_number)
 -- FROM Manuscript;

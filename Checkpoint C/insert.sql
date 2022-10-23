@@ -44,8 +44,6 @@ VALUES
   (2022,1,"2023-07-12"),
   (2023,2,"2022-01-08");
 
-SELECT * FROM Issue;
-
 -- number of RICodes:: 10
 INSERT INTO RICodes (code,interest)
 VALUES
@@ -539,7 +537,6 @@ VALUES
   ("in.mi.pede@outlook.com","Jerome","Kelly",10),
   ("etiam.ligula.tortor@aol.com","Cally","Hampton",13);
 
-SELECT * FROM Manuscript;
 -- number of Reviewer_has_Manuscript:: 200
 INSERT INTO Reviewer_has_Manuscript (Reviewer_reviewer_id,Manuscript_manuscript_number,date_sent,Appropriateness,Clarity,Methodology,Experimental,Recommendation,feedback_date)
 VALUES
