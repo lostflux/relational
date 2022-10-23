@@ -5,7 +5,7 @@
 
 
 -- First, clear all data (if any) from the tables
-
+SET SQL_SAFE_UPDATES = 0;
 DELETE FROM Manuscript_Author;
 DELETE FROM Journal_has_RICodes;
 DELETE FROM Reviewer_has_Manuscript;
@@ -18,7 +18,7 @@ DELETE FROM Affiliation;
 DELETE FROM Journal;
 DELETE FROM Author;
 
-SET SQL_SAFE_UPDATES = 0;
+SET SQL_SAFE_UPDATES = 1;
 -- Reset auto-increment counters
 ALTER TABLE Manuscript  AUTO_INCREMENT = 1;
 ALTER TABLE RICodes     AUTO_INCREMENT = 1;
