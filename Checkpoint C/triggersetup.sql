@@ -54,11 +54,17 @@ CREATE TRIGGER ResetManuscriptStatusonReviewerResign
       SELECT COUNT(*) INTO other_reviewers_count
       FROM Reviewer
       WHERE reviewer_id != OLD.Reviewer_reviewer_id
-      AND reviewer_ID NOT IN (
-        SELECT Reviewer_reviewer_id
-        FROM Reviewer_has_Manuscript
-        WHERE Manuscript_manuscript_number = OLD.Manuscript_manuscript_number
-      );
+      AND reviewer_id IN
+        (
+          SELECT Reviewer_reviewer_id
+          FROM Reviewer_has_RICodes
+          WHERE RICodes_code =
+            (
+              SELECT RICodes_code
+              FROM Manuscript
+              WHERE manuscript_number = OLD.Manuscript_manuscript_number
+            )
+        );
       IF other_reviewers_count > 0 THEN
         UPDATE Manuscript
         SET status = 'submitted',
