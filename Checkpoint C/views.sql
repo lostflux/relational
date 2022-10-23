@@ -136,7 +136,7 @@ CREATE VIEW ReviewQueue AS
     AND Manuscript.manuscript_number = Reviewer_has_Manuscript.Manuscript_manuscript_number
     AND Reviewer.reviewer_id = Reviewer_has_Manuscript.Reviewer_reviewer_id
     AND Manuscript.status = 'under review'
-    AND Manuscript_Author.author_ordinal = 4
+    AND Manuscript_Author.author_ordinal = 1
   GROUP BY
     Manuscript.manuscript_number
   ORDER BY
