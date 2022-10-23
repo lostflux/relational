@@ -1,12 +1,5 @@
 /* Script for definition of triggers in the database */
 
-<<<<<<< HEAD
-/* 
-   Trigger: manuscript_become_accepted
-   Purpose: When a manuscript's status is changed to accepted
-            the status is immediately set to typesetting
-   Permissions: Editor.
-=======
 /*
   When an author is submitting a new manuscript to the system
   with an ICode for which there is no reviewer 
@@ -36,7 +29,14 @@ DELIMITER ;
   Trigger: ManuscriptStatusChange
   Purpose: When a manuscript's status is changed, update the status_change_date.
   Permissions: Editor.
->>>>>>> ea73efce506c615611a456c88ac8ffcb35e9c7bb
+*/
+
+
+/* 
+   Trigger: manuscript_become_accepted
+   Purpose: When a manuscript's status is changed to accepted
+            the status is immediately set to typesetting
+   Permissions: Editor.
 */
 DROP TRIGGER IF EXISTS manuscript_become_accepted;
 DELIMITER $$
