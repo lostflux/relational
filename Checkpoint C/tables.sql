@@ -6,8 +6,9 @@
   Authors: Amittai Siavava, Ke Lou
  */
 
-CREATE DATABASE IF NOT EXISTS `siavava_lou`;
-USE `siavava_lou`;
+-- Change the database to the database you are using
+CREATE DATABASE IF NOT EXISTS `F004NF3_db`;
+USE `F004NF3_db`;
 
 -- First, clear the database.
 -- We turn off foreign-key checks

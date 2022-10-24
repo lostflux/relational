@@ -5,10 +5,11 @@
 
 # Please set this variable to the path to the directory containing
 # SQL files.
-DIR = "/Users/amittaijoel/workspace/db/psets/ps2/Checkpoint\ C"
+DIR = "."
 
 # Please set this variable to your mysql username.
-USERNAME = "sv"
+# Also need to do this in either all.sql file or in tables.sql file
+USERNAME = "F004NF3"
 
 all: test
 
@@ -25,8 +26,7 @@ test:
 	# @cat triggertest.sql >> all.sql # this raises an error in mysql. Please test separately.
 
 	# please change username at top of Makefile.
-	mysql -u $(USERNAME) -p -e "source $(DIR)/all.sql"
-
+	mysql --user=$(USERNAME) -h cosc061-ad12-db.c.dartmouth.edu -p -e "source $(DIR)/all.sql"
 
 clean:
 	@rm -f all.sql
