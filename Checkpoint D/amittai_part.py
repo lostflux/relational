@@ -664,7 +664,7 @@ class Editor:
         request_type = request_tokens[0].lower() if len(request_tokens) > 0 else ""
 
         if request_type == "status":
-            print(f"Editor ID: {self.author_id}\n{self.status()}")
+            print(f"Editor ID: {self.editor_id}\n{self.status()}")
 
         elif request_type == "register":
             if len(request_tokens) != 4:
@@ -881,15 +881,34 @@ def test_editor():
         cursor.close()
         print()
 
+def test_editor_handle_request():
+    """
+        Function to test editor handling message queries
+    """
+    print("Testing editor handling message queries...")
+    editor_id = input("Enter editor ID: ")
+    editor = Editor(editor_id)
+    if editor:
+        print("Editor logged in successfully.")
+    else:
+        print("Editor login failed.")
+        return
+    while True:
+        request = input("Enter request: ")
+        editor.handle_request(request)
+        print(f"Editor status: \n{editor.status()}")
+    return
+
 
 if __name__ == '__main__':
 
     # test author
     # test_author()
-    test_author_handle_request()
+    # test_author_handle_request()
 
     # test editor
     # test_editor()
+    test_editor_handle_request()
 
 
 
