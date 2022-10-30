@@ -65,6 +65,7 @@ CREATE TABLE Issue
     publication_date    DATE,
     Journal_journal_ID  INT,
     FOREIGN KEY         (Journal_journal_ID)  REFERENCES Journal(journal_ID)
+    UNIQUE              (year, period)
   );
 
 CREATE TABLE Editor

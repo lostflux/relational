@@ -531,7 +531,6 @@ class Editor:
             cursor.close()
         
         if success:
-            print("OK")
             self.editor_id = editor_id
             print("You have been registered as editor with ID: {}".format(self.editor_id))
             print(f"Status update: \n{self.status()}")
@@ -646,6 +645,181 @@ class Editor:
             cursor.close()
         
         return success
+
+    @staticmethod
+    def schedule_manuscript(manuscript_number, issue):
+        """
+            Schedule a manuscript for publication.
+
+            Parameters
+            ----------
+            `manuscript_number`: int
+                Manuscript number.
+            `issue`: int
+                Issue number: 2019-1 
+
+            Returns
+            -------
+            bool: True if the manuscript was scheduled successfully, False otherwise.
+        """
+        input = issue.split("-")
+        year = input[0]
+        period = input[1]
+        query = f"""
+                    SELECT issue_ID
+                    FROM Issue
+                    WHERE `year`={year} AND `period`={period};
+                """
+        success = False
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query)
+            row = cursor.fetchone()
+            if row:
+                issue_id = row[0]
+                query = f"""
+                    SELECT Manuscript.`status` 
+                    FROM Manuscript 
+                    WHERE Manuscript.`manuscript_number` = {manuscript_number};
+                """
+                cursor.execute(query)
+                res = cursor.fetchone()
+                manuscript_status = res[0] if res else ""
+
+                query = f"""
+                    SELECT sum(Manuscript.`page_count`)
+                    FROM Manuscript
+                    GROUP BY Manuscript.`Issue_issue_ID`, Manuscript.`status`
+                    HAVING Manuscript.`Issue_issue_ID` = {issue_id} AND Manuscript.`status`='schedule for publication';
+                """
+                cursor.execute(query)
+                res = cursor.fetchone()
+                curr_page_total = res[0] if res else 0
+
+                query = f"""
+                    SELECT page_count
+                    FROM Manuscript
+                    WHERE manuscript_number = 43;
+                """
+                cursor.execute(query)
+                res = cursor.fetchone()
+                manuscript_page = res[0] if res else 0
+                curr_page_total += manuscript_page
+
+                if manuscript_status == "ready" and curr_page_total <= 100:
+                    query = f"""
+                        UPDATE Manuscript
+                        SET status = 'schedule for publication', Issue_issue_ID = {issue_id}
+                        WHERE manuscript_number = {manuscript_number};
+                    """
+                    cursor.execute(query)
+            conn.commit()
+            success = True
+        except Error as error:
+            print(error)
+        finally:
+            cursor.close()
+        
+        return success
+
+    @staticmethod
+    def publish_issue(issue):
+
+        input = issue.split("-")
+        year = input[0]
+        period = input[1]
+        query = f"""
+            SELECT COUNT(Manuscript.`manuscript_number`)
+            FROM Manuscript
+            LEFT JOIN Issue
+            ON Manuscript.`Issue_issue_ID` = Issue.`issue_ID`
+            WHERE `year`={year} AND `period`={period};
+        """
+
+        query2 = f"""
+            SELECT Manuscript.`manuscript_number`
+            FROM Manuscript
+            LEFT JOIN Issue
+            ON Manuscript.`Issue_issue_ID` = Issue.`issue_ID`
+            WHERE `year`={year} AND `period`={period};
+        """
+        success = False
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query)
+            result = cursor.fetchall()
+            if result[0][0] >= 1:
+                cursor.execute(query2)
+                result = cursor.fetchall()
+                today = date.today()
+                for row in result:
+                    query3 = f"""
+                        UPDATE Manuscript
+                        SET status = 'published', status_change_date={today}
+                        WHERE manuscript_number = {row[0]};
+                    """
+                    cursor.execute(query3)
+                
+                query4 = f"""
+                    SELECT issue_ID
+                    FROM Issue
+                    WHERE `year`={year} AND `period`={period};
+                """
+                cursor.execute(query4)
+                row = cursor.fetchone();
+                if row:
+                    issue_id = row[0]
+                    query5 = f"""
+                        UPDATE Issue
+                        SET `publication_date`= {today}
+                        WHERE `issue_ID` = {issue_id};
+                    """
+                    cursor.execute(query5)
+            conn.commit()
+            success = True
+        except Error as error:
+            print(error)
+        finally:
+            cursor.close()
+        
+        return success
+
+    @staticmethod
+    def reset_database():
+        """
+            Reset the database to its initial state.
+        """
+
+        querys = [
+            "SET FOREIGN_KEY_CHECKS = 0;"
+            "DROP TABLE IF EXISTS RICodes;"
+            "DROP TABLE IF EXISTS Affiliation;"
+            "DROP TABLE IF EXISTS Journal;"
+            "DROP TABLE IF EXISTS Issue;"
+            "DROP TABLE IF EXISTS Editor;"
+            "DROP TABLE IF EXISTS Reviewer;"
+            "DROP TABLE IF EXISTS Author;"
+            "DROP TABLE IF EXISTS Manuscript_Author;"
+            "DROP TABLE IF EXISTS Journal_has_RICodes;"
+            "DROP TABLE IF EXISTS Reviewer_has_Manuscript;"
+            "DROP TABLE IF EXISTS Manuscript;"
+            "DROP TABLE IF EXISTS Reviewer_has_RICodes;"
+            "SET FOREIGN_KEY_CHECKS = 1;"
+        ]
+        try:
+            cursor = conn.cursor()
+            for query in querys:
+                cursor.execute(query)
+            conn.commit()
+            success = True
+        except Error as error:
+            print(error)
+        finally:
+            cursor.close()
+        return success
+
 
     def handle_request(self, request: str):
         """
