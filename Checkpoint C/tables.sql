@@ -7,8 +7,8 @@
  */
 
 -- Change the database to the database you are using
-CREATE DATABASE IF NOT EXISTS `F004NF3_db`;
-USE `F004NF3_db`;
+CREATE DATABASE IF NOT EXISTS `F004H9S_db`;
+USE `F004H9S_db`;
 
 -- First, clear the database.
 -- We turn off foreign-key checks
@@ -30,6 +30,8 @@ DROP TABLE IF EXISTS Reviewer_has_Manuscript;
 DROP TABLE IF EXISTS Manuscript;
 
 DROP TABLE IF EXISTS Reviewer_has_RICodes;
+
+DROP TABLE IF EXISTS AllUsers;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -64,7 +66,7 @@ CREATE TABLE Issue
     period              INT   NOT NULL CHECK (period >= 1 AND period <= 4),
     publication_date    DATE,
     Journal_journal_ID  INT,
-    FOREIGN KEY         (Journal_journal_ID)  REFERENCES Journal(journal_ID)
+    FOREIGN KEY         (Journal_journal_ID)  REFERENCES Journal(journal_ID),
     UNIQUE              (year, period)
   );
 
@@ -166,3 +168,48 @@ CREATE TABLE Reviewer_has_RICodes
     FOREIGN KEY   (Reviewer_reviewer_ID)  REFERENCES Reviewer(reviewer_ID),
     FOREIGN KEY   (RICodes_code)          REFERENCES RICodes(code)
   );
+
+CREATE TABLE AllUsers
+  (
+    user_id   BIGINT        NOT NULL  PRIMARY KEY AUTO_INCREMENT,
+    password  VARCHAR(255)  DEFAULT NULL,
+    user_type VARCHAR(20)   NOT NULL  CHECK (user_type IN ('Author', 'Reviewer', 'Editor')),
+    type_id   INT           NOT NULL,
+    UNIQUE (user_type, type_id)
+  );
+
+DROP TRIGGER IF EXISTS IndexAuthor;
+DELIMITER $$
+CREATE TRIGGER IndexAuthor
+  AFTER INSERT ON Author
+  FOR EACH ROW
+  BEGIN
+    SET @author_id = NEW.author_ID;
+    INSERT INTO AllUsers (password, user_type, type_id)
+    VALUES (NULL, 'Author', @author_id);
+  END$$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS IndexReviewer;
+DELIMITER $$
+CREATE TRIGGER IndexReviewer
+  AFTER INSERT ON Reviewer
+  FOR EACH ROW
+  BEGIN
+    SET @reviewer_id = NEW.reviewer_ID;
+    INSERT INTO AllUsers (password, user_type, type_id)
+    VALUES (NULL, 'Reviewer', @reviewer_id);
+  END$$
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS IndexEditor;
+DELIMITER $$
+CREATE TRIGGER IndexEditor
+  AFTER INSERT ON Editor
+  FOR EACH ROW
+  BEGIN
+    SET @editor_id = NEW.editor_ID;
+    INSERT INTO AllUsers (password, user_type, type_id)
+    VALUES (NULL, 'Editor', @editor_id);
+  END$$
+DELIMITER ;
