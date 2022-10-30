@@ -180,6 +180,29 @@ import mysql
 #     print("DONE")
 
 
+# the mysql connection instance.
+
+try:
+    dbconfig = read_db_config()
+    print('Connecting to MySQL database...')
+    conn = MySQLConnection(**dbconfig)
+    if conn.is_connected():
+        print('connection established.')
+        mycursor = conn.cursor(buffered=True)
+    else:
+        print('connection failed.')
+
+except mysql.connector.Error as err:
+    print('connection failed somehow')
+    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+        print("Something is wrong with your user name or password")
+    elif err.errno == errorcode.ER_BAD_DB_ERROR:
+        print("Database does not exist")
+    else:
+        print("Unexpected error")
+        print(err)
+        sys.exit(1)
+
 def process_reviewer_input(input_list):
     """Process the input from the reviewer
 
@@ -263,12 +286,12 @@ def register_reviewer(cursor, fname, lname, ICode_list):
     reviewer_id = None
     try:
         query = "INSERT INTO `Reviewer` (`f_name`,`l_name`) VALUES ('{}','{}');".format(fname, lname)
-        print("-->",query,"<--", end='')
+        print("-->",query,"<--", end='\n')
         cursor.execute(query)
         reviewer_id = cursor.lastrowid
         for ICode in ICode_list:
             query = "INSERT INTO `Reviewer_has_RICodes` (`Reviewer_reviewer_ID`, `RICodes_code`) VALUES ({}, {});".format(reviewer_id, ICode)
-            print("-->",query,"<--", end='')
+            print("-->",query,"<--", end='\n')
             cursor.execute(query)
     except mysql.connector.Error as err:
         print(err.msg)
@@ -286,15 +309,25 @@ def login_reviewer(cursor, reviewer_id):
     """
     try:
         query = "SELECT CONCAT('Hello, ', Reviewer.`f_name`, ' ', Reviewer.`l_name`) FROM `Reviewer` WHERE Reviewer.`reviewer_ID` = {};".format(reviewer_id)
-        print("-->",query,"<--", end='')
         cursor.execute(query)
+        result = cursor.fetchone()
+        print(result[0], "\n")
         print("Below is a list of manuscripts assigned to you:")
-        query = "SELECT Reviewer_has_Manuscript.`Manuscript_manuscript_number` AS `Manuscript #`, Manuscript.status FROM Reviewer_has_Manuscript, Manuscript WHERE Reviewer_has_Manuscript.`Reviewer_reviewer_ID` = 1 AND Manuscript.manuscript_number =Reviewer_has_Manuscript.`Manuscript_manuscript_number` ORDER BY FIELD(Manuscript.status, 'under review', 'rejected', 'accepted', 'submitted', 'in typesetting', 'schedule for publication', 'published');"
+        query = f"""SELECT Reviewer_has_Manuscript.`Manuscript_manuscript_number` 
+                    AS `Manuscript #`, Manuscript.status 
+                    FROM Reviewer_has_Manuscript, Manuscript 
+                    WHERE Reviewer_has_Manuscript.`Reviewer_reviewer_ID` = {reviewer_id} AND Manuscript.manuscript_number =Reviewer_has_Manuscript.`Manuscript_manuscript_number` 
+                    ORDER BY FIELD(Manuscript.status, 'under review', 'rejected', 'accepted', 'submitted', 'in typesetting', 'schedule for publication', 'published');"""
         cursor.execute(query)
+        result = cursor.fetchall()
+        print('Manuscript #', 'Status')
+        print("--------------------")
+        for row in result:
+            print(row[0], row[1])
+        print("--------------------")
     except mysql.connector.Error as err:
         print(err.msg)
     else:
-        print("OK")
         return True
     return False
 
@@ -317,15 +350,18 @@ def resign_reviewer(cursor, reviewer_id):
     return False
 
 def process_reviewer_sql(action, output):
-    cursor = None
+    cursor = mycursor
     if action == "register":
         register_res = register_reviewer(cursor,output[0], output[1], output[2])
+        conn.commit()
         return register_res, None, None
     elif action == "login":
         login_res = login_reviewer(cursor, output)
+        conn.commit()
         return None, login_res, None
     elif action == "resign":
         resign_res = resign_reviewer(cursor, output)
+        conn.commit()
         return None, None, resign_res
     else:
         return None, None, None
@@ -349,7 +385,6 @@ def set_manuscript_opinion(cursor, action, reviewer_id, output):
     reject_score = 1
     try:
         query = "SELECT IF(SUM(Reviewer_has_Manuscript.`Manuscript_manuscript_number` = {}), 'Y', 'N') AS RES FROM Reviewer_has_Manuscript GROUP BY `REVIEWER_reviewer_ID` HAVING `REVIEWER_reviewer_ID` = {};".format(manuscript_id, reviewer_id)
-        print("-->",query,"<--", end='')
         cursor.execute(query)
 
         reviewer_has_manu = cursor.fetchall()
@@ -358,7 +393,6 @@ def set_manuscript_opinion(cursor, action, reviewer_id, output):
             return False
         
         query = "SELECT `status` FROM Manuscript WHERE `manuscript_number` = {};".format(manuscript_id)
-        print("-->",query,"<--", end='')
         cursor.execute(query)
         manuscript_status = cursor.fetchall()
         if manuscript_status[0][0] != 'under review':
@@ -369,9 +403,8 @@ def set_manuscript_opinion(cursor, action, reviewer_id, output):
             query = "UPDATE Reviewer_has_Manuscript SET `appropriateness` = {}, `clarity` = {}, `methodology`={}, `experimental`={}, `recommendation`= {} WHERE Reviewer_has_Manuscript.`Reviewer_reviewer_ID` = {} AND Reviewer_has_Manuscript.`Manuscript_manuscript_number`={};".format(ascore, cscore, mscore, escore, accept_score, reviewer_id, manuscript_id)
         elif action =="reject":
             query = "UPDATE Reviewer_has_Manuscript SET `appropriateness` = {}, `clarity` = {}, `methodology`={}, `experimental`={}, `recommendation`= {} WHERE Reviewer_has_Manuscript.`Reviewer_reviewer_ID` = {} AND Reviewer_has_Manuscript.`Manuscript_manuscript_number`={};".format(ascore, cscore, mscore, escore, reject_score, reviewer_id, manuscript_id)
-        print("-->",query,"<--", end='')
         cursor.execute(query)
-            
+        
     except mysql.connector.Error as err:
         print(err.msg)
     else:
@@ -382,7 +415,7 @@ def set_manuscript_opinion(cursor, action, reviewer_id, output):
 
 def process_reviewer_login(reviewer_id):
     loggedIn = True
-    print("You're currently loggedin as reviewer {}".format(reviewer_id))
+    print("You're currently logged in as reviewer {}".format(reviewer_id))
     print("Use logout to logout")
     while loggedIn:
         raw_input = sys.stdin.readline()
@@ -390,17 +423,18 @@ def process_reviewer_login(reviewer_id):
         # exit the login
         if len(input_list) == 1 and input_list[0] == "logout":
             loggedIn = False
+            print("You have successfully logged out")
         else:
             action, output = process_reviewer_action(input_list)
             print("action: {}, output: {}".format(action, output))
             if action and output:
-                # print("action: {}, output: {}".format(action, output))
                 process_reviewer_action_sql(curr_user_id, action, output)
     return
 
 def process_reviewer_action_sql(reviewer_id, action, output):
-    cursor = None
+    cursor = mycursor
     res = set_manuscript_opinion(cursor, action, reviewer_id, output)
+    conn.commit()
     return res
 
 def process_editor_input(input_list):
@@ -489,12 +523,12 @@ if __name__ == '__main__':
                 if resign_res != None and resign_res == True:
                     loggedIn = False
                     curr_user_id = None
-        # Editor
-        elif len(input_list) >= 2 and input_list[1] == "editor":
-            action, output = process_editor_input(input_list)
-            if action and output:
-                curr_role = "editor"
-                print("action: {}, output: {}".format(action, output))
+        # # Editor
+        # elif len(input_list) >= 2 and input_list[1] == "editor":
+        #     action, output = process_editor_input(input_list)
+        #     if action and output:
+        #         curr_role = "editor"
+        #         print("action: {}, output: {}".format(action, output))
                 # register_res, login_res, resign_res = process_editor_sql(action, output)
                 # if register_res != None and register_res == False:
                 #     print("Registration failed")
