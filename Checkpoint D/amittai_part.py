@@ -7,6 +7,7 @@ import getpass
 import mysql
 import sys
 from datetime import date
+import shlex
 
 
 # the mysql connection instance.
@@ -299,7 +300,7 @@ class Author:
                 - `status`
         """
 
-        request_tokens  = request.split(" ")
+        request_tokens  = shlex.split(request)
         request_type = request_tokens[0].lower() if len(request_tokens) > 0 else ""
 
         if request_type == "status":
@@ -614,6 +615,132 @@ class Editor:
             cursor.close()
         
         return success
+
+    def handle_request(self, request: str):
+        """
+            Handle a request from the user.
+
+            Parameters
+            ----------
+            `request`: str
+                Request from the user.
+
+            Returns
+            -------
+            None
+        """
+        request_tokens  = shlex.split(request)
+        request_type = request_tokens[0].lower() if len(request_tokens) > 0 else ""
+
+        if request_type == "status":
+            print(f"Editor ID: {self.author_id}\n{self.status()}")
+
+        elif request_type == "register":
+            if len(request_tokens) != 4:
+                print("Invalid request: too few arguments.")
+                return
+            if request_tokens[1].lower() != "editor":
+                print("Invalid request.")
+                return
+
+            f_name = request_tokens[2]
+            l_name = request_tokens[3]
+
+            if self.register_editor_if_nonexistent(f_name, l_name):
+                print("Editor registered successfully.")
+            else:
+                print("Author registration failed.")
+
+        elif request_type == "login":
+            if len(request_tokens) != 2:
+                print("Invalid request: too few arguments.")
+                return
+            try:
+                editor_id = int(request_tokens[1])
+                self.__init__(editor_id)
+            except ValueError:
+                print("Invalid request: editor ID must be an integer.")
+                return
+        elif request_type == "status":
+            print(f"Editor ID: {self.editor_id}\n{self.status()}")
+
+        elif request_type == "assign":
+            if len(request_tokens) != 3:
+                print("Invalid request: too few arguments.")
+                return
+            try:
+                manuscript_number = int(request_tokens[1])
+                reviewer_id = int(request_tokens[2])
+            except ValueError:
+                print("Invalid request: manuscript number and reviewer ID must be integers.")
+                return
+            if self.assign_reviewer(manuscript_number, reviewer_id):
+                print("Reviewer assigned successfully.")
+            else:
+                print("Reviewer assignment failed.")
+
+        elif request_type == "reject":
+            if len(request_tokens) != 2:
+                print("Invalid request: too few arguments.")
+                return
+            try:
+                manuscript_number = int(request_tokens[1])
+            except ValueError:
+                print("Invalid request: manuscript number must be an integer.")
+                return
+            if self.reject_manuscript(manuscript_number):
+                print("Manuscript rejected successfully.")
+            else:
+                print("Manuscript rejection failed.")
+        
+        elif request_type == "accept":
+            if len(request_tokens) != 2:
+                print("Invalid request: too few arguments.")
+                return
+            try:
+                manuscript_number = int(request_tokens[1])
+            except ValueError:
+                print("Invalid request: manuscript number must be an integer.")
+                return
+            if self.accept_manuscript(manuscript_number):
+                print("Manuscript accepted successfully.")
+            else:
+                print("Manuscript acceptance failed.")
+        elif request_type == "schedule":
+            if len(request_tokens) != 3:
+                print("Invalid request: too few arguments.")
+                return
+            try:
+                manuscript_number = int(request_tokens[1])
+                issue = request_tokens[2]
+            except ValueError:
+                print("Invalid request: manuscript number must be an integer.")
+                return
+            if self.schedule_manuscript(manuscript_number, issue):
+                print("Manuscript scheduled successfully.")
+            else:
+                print("Manuscript scheduling failed.")
+
+        elif request_type == "publish":
+            if len(request_tokens) != 2:
+                print("Invalid request: too few arguments.")
+                return
+            issue = request_tokens[1]
+            if self.publish_issue(issue):
+                print("Issue published successfully.")
+            else:
+                print("Issue publishing failed.")
+
+        elif request_type == "reset":
+            self.reset_database()
+            print("Database reset successfully.")
+        elif request_type == "exit":
+            print("Exiting...")
+            exit(0)
+        else:
+            print("Invalid request.")
+        
+      
 
 def test_editor():
     print("Testing Editor instantiation, login, and status...")
