@@ -506,6 +506,37 @@ class Editor:
 
         return success
 
+    def register_editor(self, fname, lname):
+        """Register a editor
+
+        Arguments:
+            fname       -- first name of the reviewer
+            lname       -- last name of the reviewer
+        """
+        success = False
+        editor_id = None
+        query = f"""
+            INSERT INTO `Editor` (`f_name`,`l_name`)
+            VALUES ('{fname}','{lname}')"""
+
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query)
+            conn.commit()
+            editor_id = cursor.lastrowid
+            success = True
+        except mysql.connector.Error as err:
+            print(err.msg)
+        finally:
+            cursor.close()
+        
+        if success:
+            print("OK")
+            self.editor_id = editor_id
+            print("You have been registered as editor with ID: {}".format(self.editor_id))
+            print(f"Status update: \n{self.status()}")
+        return success
+
     # 4. editor assign manuscript
     @staticmethod
     def assign_reviewer(manuscript_number: int, reviewer_id: int):
