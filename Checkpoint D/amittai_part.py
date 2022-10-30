@@ -1,185 +1,606 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from mysql.connector import MySQLConnection, Error, errorcode, FieldType
 from dbconfig import read_db_config
 import getpass
 import mysql
 import sys
 
+
+# the mysql connection instance.
+
+db_config = read_db_config()
+conn = MySQLConnection(**db_config)
+
 # Added the last two imports above to fix problems running on some systems
 
-def drop_table_if_exists(cursor, tablename):
-    """Drop the specified table using the mysql connection cursor       
-    
-    Arguments:
-        cursor  -- mysql connection cursor 
-        tablename  -- string name of table to be dropped if exists
+# Author Functionalities
+
+# 1. Register a new author.
+def author_register(f_name: str, l_name: str, email: str, affiliation: str):
     """
+        Register a new author.
+        
+        Params
+        ------
+        `f_name`: str
+            First name of the author.
+        `l_name`: str
+            Last name of the author.
+        `email`: str
+            Email of the author.
+        `affiliation`: str
+            Affiliation (organization) of the author.
+
+        Returns
+        -------
+        bool: True if the author was registered successfully, False otherwise.
+    """
+
+    query = f"""
+        INSERT INTO Author (f_name, l_name, email, Affiliation_affiliation_ID)
+        VALUES ('{f_name}', '{l_name}', '{email}', '{affiliation}')
+    """
+
+    success = False
+
     try:
-        print("Dropping",tablename)
-        cursor.execute("DROP TABLE IF EXISTS {}".format(tablename))
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        success = True
+    except Error as error:
+        print(error)
+    finally:
+        cursor.close()
+
+    return success
+
+# 2. author status.
+def author_status(author_id: int):
+    """
+        Return a status of the current author's manuscripts.
+
+        Parameters
+        ----------
+        `author_id`: int
+            Author ID.
+
+        Returns
+        -------
+            String value representing the status of all manuscripts
+            where author is primary author.
+    """
+    query = f"""
+        SELECT LeadAuthorManuscripts.manuscript_number, Manuscript.status
+        FROM LeadAuthorManuscripts, Manuscript
+        WHERE LeadAuthorManuscripts.author_id = {author_id}
+        AND LeadAuthorManuscripts.manuscript_number = Manuscript.manuscript_number
+    """
+
+    cursor = conn.cursor()
+    cursor.execute(query)
+    results = "\n".join(f"{row}" for row in cursor)
+    if len(results) == 0:
+        results = "Author has no manuscripts."
+
+    return results
+
+# 3. author login.
+def author_login(author_id: int):
+    """
+        Author login.
+        
+        Params
+        ------
+        `author_id`: int
+            Author ID.
+
+        Returns
+        -------
+        bool: True if the author was logged in successfully, False otherwise.
+    """
+
+    query = f"""
+        SELECT * FROM Author
+        WHERE author_ID = {author_id}
+    """
+
+    success = False
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        row = cursor.fetchone()
+        if row:
+            success = True
+            print(f"Welcome, author {author_id}!")
+            status = author_status(author_id)
+            print(f"Status update: \n{status}")
+    except Error as error:
+        print(error)
+    finally:
+        cursor.close()
+
+    return success
+
+# 4. author submit
+def author_submit_manuscript(
+    title: str, affiliation: str, i_code: str,
+    author_two=None, author_three=None, author_four=None, filename="unspecified"):
+    """
+        Submit a manuscript.
+
+        Parameters
+        ----------
+        `title`: str
+            Title of the manuscript.
+        `affiliation`: str
+            Affiliation (organization) of the author.
+        `i_code`: str
+            Institutional code of the author.
+        `author_two`: int
+            Author ID of the second author.
+        `author_three`: int
+            Author ID of the third author.
+        `filename`: str
+            Filename of the manuscript.
+
+        Returns
+        -------
+        bool: True if the manuscript was submitted successfully, False otherwise.
+    """
+    author_one = 23 # this should be the current author's ID
+
+    queries = [
+        f"""
+            ALTER TABLE Author
+            SET Affiliation_affiliation_ID = {affiliation}
+            WHERE author_id = {author_one}
+        """,
+        f"""
+            INSERT INTO Manuscript (title, Affiliation_affiliation_ID, RICodes_code)
+            VALUES ('{title}', '{i_code}')
+        """,
+        f"""
+            INSERT INTO Manuscript_Author (author_id, manuscript_number, author_ordinal)
+            VALUES ({author_one}, (SELECT MAX(manuscript_number) FROM Manuscript), 1)
+        """
+    ]
+
+    if author_two:
+        queries.append(f"""
+            INSERT INTO Manuscript_Author (author_id, manuscript_number, author_ordinal)
+            VALUES ({author_two}, (SELECT MAX(manuscript_number) FROM Manuscript), 2)
+        """)
+    if author_three:
+        queries.append(f"""
+            INSERT INTO Manuscript_Author (author_id, manuscript_number, author_ordinal)
+            VALUES ({author_three}, (SELECT MAX(manuscript_number) FROM Manuscript), 3)
+        """)
+
+    if author_four:
+        queries.append(f"""
+            INSERT INTO Manuscript_Author (author_id, manuscript_number, author_ordinal)
+            VALUES ({author_four}, (SELECT MAX(manuscript_number) FROM Manuscript), 4)
+        """)
+
+    success = False
+
+    try:
+        cursor = conn.cursor()
+        for query in queries:
+            cursor.execute(query)
+            conn.commit()
+        success = True
+    except Error as error:
+        print(error)
+    finally:
+        cursor.close()
+
+    return success
+
+
+# 2. editor status.
+def editor_status(editor_id: int):
+    """
+        Return a status of the current editor's manuscripts.
+
+        Parameters
+        ----------
+        `editor_id`: int
+            Editor ID.
+
+        Returns
+        -------
+            String value representing the status of all manuscripts
+            assigned to the editor.
+    """
+    query = f"""
+        SELECT manuscript_number, status
+        FROM Manuscript
+        ORDER BY status, manuscript_number
+    """
+
+    cursor = conn.cursor()
+    cursor.execute(query)
+    results = "\n".join(f"{row}" for row in cursor)
+    if len(results) == 0:
+        results = "There are currently no manuscripts in the system."
+
+    return results
+
+# 3. editor login
+def editor_login(editor_id: int):
+    """
+        Editor login.
+        
+        Params
+        ------
+        `editor_id`: int
+            Editor ID.
+
+        Returns
+        -------
+        bool: True if the editor was logged in successfully, False otherwise.
+    """
+
+    query = f"""
+        SELECT * FROM Editor
+        WHERE editor_ID = {editor_id}
+    """
+
+    success = False
+
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        row = cursor.fetchone()
+        if row:
+            success = True
+            print(f"Welcome, editor {editor_id}!")
+            print(f"Status update: \n{editor_status(editor_id)}")
 
     except Error as error:
         print(error)
+    finally:
+        cursor.close()
 
-def add_members(mycursor):
-    member_list = ( ('Vincent','Colleen'),
-                    ('Blankenship','Shaine'),
-                    ('Stout','Bradley'),
-                    ('Kennedy','Taylor'),
-                    ('Booth','Karen'),
-                    ('Conley','Raven'),
-                    ('Clark','Serina'),
-                    ('Carpenter','Walker'),
-                    ('Reid','Alice'),
-                    ('Hendrix','Vielka')
-                )
-    for mem in member_list:
-        print("adding: {}, {} ...".format(mem[0],mem[1]), end='')
-        add_member(mycursor,mem)
+    return success
 
-def add_member(cursor, mem):
+# 4. editor assign manuscript
+def editor_assign_reviewer(manuscript_number: int, reviewer_id: int):
+    """
+        Assign a manuscript to a reviewer.
+
+        Parameters
+        ----------
+        `manuscript_number`: int
+            Manuscript number.
+        `reviewer_id`: int
+            Reviewer ID.
+
+        Returns
+        -------
+        bool: True if the manuscript was assigned successfully, False otherwise.
+    """
+
+    query = f"""
+        INSERT INTO Reviewer_has_Manuscript
+        (Manuscript_manuscript_number, Reviewer_reviewer_id)
+        VALUES ({manuscript_number}, {reviewer_id})
+    """
+
+    success = False
+
     try:
-        query = "INSERT INTO `members` (`last_name`,`first_name`) VALUES ('{}','{}');".format(mem[0], mem[1])
-        print("-->",query,"<--", end='')
+        cursor = conn.cursor()
         cursor.execute(query)
-    except mysql.connector.Error as err:
-        print(err.msg)
-    else:
-        print("OK")
-
-def mysqldemo():
-    """ This is a simple program to demonstrate using the MySQL connector in Python.
-
-        1. Get DB credentials from config file
-            if password is null, get it from the user
-        2. Connect to the MySQL DB with those credentials.
-        3. Drop TABLE IF EXISTS mysqldemo
-        4. Do these SQL commands 
-            DROP TABLE IF EXISTS 'authors';
-            CREATE TABLE 'authors' (
-            'id' int(11) NOT NULL AUTO_INCREMENT,
-            'first_name' varchar(40) NOT NULL,
-            'last_name' varchar(40) NOT NULL,
-            'photo' blob,
-            PRIMARY KEY ('id')
-            ) ENGINE=InnoDB;
-
-            # Data for the table 'authors'
-            insert  into 'authors' ... initially with missingPhoto.jpg(blob)
-            # do various SQL things
-            select ...
-            select where...
-            update
-            select where...
-            delete
-            select where...
-            ...
-    """ 
-
-    dbconfig = read_db_config()
-    if dbconfig['password'] == "":  
-        dbconfig['password'] = getpass.getpass("database password ? :")
+        conn.commit()
+        success = True
+    except Error as error:
+        print(error)
+    finally:
+        cursor.close()
     
-    print(dbconfig)
-    mycursor = None
+    return success
 
-    # Connect to the database
-    try:
-        print('Connecting to MySQL database...')
-        conn = MySQLConnection(**dbconfig)
-        if conn.is_connected():
-            print('connection established.')
-            mycursor = conn.cursor(buffered=True)
-        else:
-            print('connection failed.')
-            `
+# 5. editor reject manuscript
+def editor_reject_manuscript(manuscript_number: int):
+    """
+        Reject a manuscript.
 
-    except mysql.connector.Error as err:
-        print('connection failed somehow')
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print("Unexpected error")
-            print(err)
-            sys.exit(1)
-     
+        Parameters
+        ----------
+        `manuscript_number`: int
+            Manuscript number.
 
-    # Ensure the table is gone before we try to create it
-    print("!", end='')
-    print(mycursor.rowcount)
-    print("!")
-    drop_table_if_exists(mycursor, "members")
-        
-    # Create the table
-    ct = (
-    "CREATE TABLE `members` ("
-    "  `id` int(11) NOT NULL AUTO_INCREMENT,"
-    "  `last_name` varchar(40) NOT NULL,"
-    "  `first_name` varchar(40) NOT NULL,"
-    "  PRIMARY KEY (`id`)"
-    ") ENGINE=InnoDB")
+        Returns
+        -------
+        bool: True if the manuscript was rejected successfully, False otherwise.
+    """
+
+    query = f"""
+        UPDATE Manuscript
+        SET status = 'rejected'
+        WHERE manuscript_number = {manuscript_number}
+    """
+
+    success = False
 
     try:
-        print("Creating members table:")
-        print(ct)
-        print(":")
-        mycursor.execute(ct)
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
-            print("already exists.")
-        else:
-            print(err.msg)
-    else:
-        print("OK")
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        success = True
+    except Error as error:
+        print(error)
+    finally:
+        cursor.close()
+    
+    return success
 
-    # Add some members
+# 6. editor accept manuscript
+def editor_accept_manuscript(manuscript_number: int):
+    """
+        Accept a manuscript.
 
-    add_members(mycursor)
+        Parameters
+        ----------
+        `manuscript_number`: int
+            Manuscript number.
 
-# and commit
+        Returns
+        -------
+        bool: True if the manuscript was accepted successfully, False otherwise.
+    """
 
-    conn.commit()
-    print("=== now get a member back ===")
+    query = f"""
+        UPDATE Manuscript
+        SET status = 'accepted'
+        WHERE manuscript_number = {manuscript_number}
+    """
 
-    mycursor.execute("SELECT * FROM members LIMIT 1")
-    rows = mycursor.fetchall()
+    success = False
 
-    print('Total Row(s):', mycursor.rowcount)
-    for row in rows:
-       print(row)
+    try:
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+        success = True
+    except Error as error:
+        print(error)
+    finally:
+        cursor.close()
+    
+    return success
 
 
-    ##### WARNING #####
-    # The rest of this demo will FAIL with mysql missing database errors
-    # if you have not run the soccer.sql file
+def test_author_register():
+    f_name = input("First name: ")
+    l_name = input("Last name: ")
+    email = input("Email: ")
+    affiliation = input("Affiliation: ")
 
-    # Now access another table and show its members
-    mycursor.execute("SELECT * FROM College")
-    rows = mycursor.fetchall()
-
-    print('Total Row(s):', mycursor.rowcount)
-    for row in rows:
+    print("Before registration:")
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM Author")
+    for row in cursor:
         print(row)
+    cursor.close()
 
-    # Check attribute types
-    mycursor.execute("SELECT * FROM College")
-    for i in range(len(mycursor.description)):
-        print("Column {}:".format(i+1))
-        desc = mycursor.description[i]
-        print("  column_name = {}".format(desc[0]))
-        print("  type = {} ({})".format(desc[1], FieldType.get_info(desc[1])))
-        print("  null_ok = {}".format(desc[6]))
-        print("  column_flags = {}".format(desc[7]))
+    success = author_register(f_name, l_name, email, affiliation)
 
+    if success:
+        print("Author registered successfully.")
+        print("After registration:")
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Author")
+        for row in cursor:
+            print(row)
+        cursor.close()
+
+    else:
+        print("Author registration failed.")
+    
+    return success
+
+def test_author_status():
+    for _ in range(5):
+        author_id = input("Author ID: ")
+        status = author_status(author_id)
+        print(f"Status update: \n{status}")
+        print()
+
+def test_author_login():
+    for _ in range(5):
+        author_id = int(input("Author ID: "))
+        status = author_login(author_id)
+        if status:
+            print("Author logged in successfully.")
+        else:
+            print("Author login failed.")
+        print()
+
+def test_author_submit():
+    title = input("Title: ")
+    affiliation = input("Affiliation: ")
+    i_code = input("Institutional code: ")
+    author_two = input("Author two: ")
+    author_three = input("Author three: ")
+    author_four = input("Author four: ")
+    filename = input("Filename: ")
+
+    success = author_submit_manuscript(
+        title, affiliation, i_code,
+        author_two, author_three, author_four, filename)
+
+    if success:
+        print("Manuscript submitted successfully.")
+    else:
+        print("Manuscript submission failed.")
+    print()
+    
+    return success
+
+
+def test_editor_login():
+    for _ in range(5):
+        editor_id = int(input("Editor ID: "))
+        status = editor_login(editor_id)
+        if status:
+            print("Editor logged in successfully.")
+        else:
+            print("Editor login failed.")
+        print()
+
+def test_editor_status():
+    for _ in range(5):
+        editor_id = input("Editor ID: ")
+        status = editor_status(editor_id)
+        print(f"Status update: \n{status}")
+        print()
+    
+    return status
+
+def test_editor_login():
+    for _ in range(5):
+        editor_id = int(input("Editor ID: "))
+        status = editor_login(editor_id)
+        if status:
+            print("Editor logged in successfully.")
+        else:
+            print("Editor login failed.")
+        print()
+    
+    return status
+
+def test_editor_assign_reviewer():
+    for _ in range(5):
+        manuscript_number = int(input("Manuscript number: "))
+        reviewer_id = int(input("Reviewer ID: "))
+
+        print("Before assignment:")
+        cursor = conn.cursor()
+        cursor.execute("""
+                        SELECT
+                            Manuscript_manuscript_number AS Manuscript_NO,
+                            Reviewer_reviewer_id AS Reviewer_ID
+                        FROM Reviewer_has_Manuscript""")
+        for row in cursor:
+            print(row)
+        cursor.close()
+
+        status = editor_assign_reviewer(manuscript_number, reviewer_id)
+        if status:
+            print("Manuscript assigned successfully.")
+        else:
+            print("Manuscript assignment failed.")
         
-    print("All done - closing up.")
+        print("After assignment:")
+        cursor = conn.cursor()
+        cursor.execute("""
+                        SELECT
+                            Manuscript_manuscript_number AS Manuscript_NO,
+                            Reviewer_reviewer_id AS Reviewer_ID
+                        FROM Reviewer_has_Manuscript""")
+        for row in cursor:
+            print(row)
+        cursor.close()
+        print()
+    
+    return status
 
-    mycursor.close()
-    conn.cmd_reset_connection()
-    conn.close()
-    print("DONE")
+def test_editor_reject_manuscript():
+    for _ in range(5):
+        manuscript_number = int(input("Manuscript number: "))
+
+        print("Before rejection:")
+        cursor = conn.cursor()
+        cursor.execute(f"""
+                        SELECT manuscript_number, status
+                        FROM Manuscript
+                        WHERE manuscript_number = {manuscript_number}""")
+        for row in cursor:
+            print(row)
+        cursor.close()
+
+        status = editor_reject_manuscript(manuscript_number)
+        if status:
+            print("Manuscript rejected successfully.")
+        else:
+            print("Manuscript rejection failed.")
+        
+        print("After rejection:")
+        cursor = conn.cursor()
+        cursor.execute(f"""
+                        SELECT manuscript_number, status
+                        FROM Manuscript
+                        WHERE manuscript_number = {manuscript_number}""")
+        for row in cursor:
+            print(row)
+        cursor.close()
+        print()
+
+def test_editor_accept_manuscript():
+    for _ in range(5):
+        manuscript_number = int(input("Manuscript number: "))
+
+        print("Before acceptance:")
+        cursor = conn.cursor()
+        cursor.execute(f"""
+                        SELECT manuscript_number, status
+                        FROM Manuscript
+                        WHERE manuscript_number = {manuscript_number}""")
+        for row in cursor:
+            print(row)
+        cursor.close()
+
+        status = editor_accept_manuscript(manuscript_number)
+        if status:
+            print("Manuscript accepted successfully.")
+        else:
+            print("Manuscript acceptance failed.")
+
+        print("After acceptance:")
+        cursor = conn.cursor()
+        cursor.execute(f"""
+                        SELECT manuscript_number, status
+                        FROM Manuscript
+                        WHERE manuscript_number = {manuscript_number}""")
+        for row in cursor:
+            print(row)
+        cursor.close()
+        print()
 
 
 if __name__ == '__main__':
-    mysqldemo()
+    # test author register.
+    # test_author_register()
+
+    # test author status.
+    # test_author_status()
+
+
+    # test author login.
+    # test_author_login()
+
+    # test author submit.
+    # test_author_submit()
+
+    # test editor login.
+    # test_editor_login()
+
+    # test editor assign reviewer.
+    # test_editor_assign_reviewer()
+
+    # test editor reject manuscript.
+    # test_editor_reject_manuscript()
+
+    # test editor accept manuscript.
+    test_editor_accept_manuscript()
+
+
+
+
