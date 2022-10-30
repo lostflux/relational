@@ -283,6 +283,80 @@ class Author:
         else:
             return Author.register_author(f_name, l_name, email, affiliation)
 
+    def handle_request(self, request: str):
+        """
+            Handle a request
+
+            Parameters
+            ----------
+            `request`: str
+                The request to handle.
+                Possible values:
+
+                - `register author <fname> <lname> <email> <affiliation>`
+                - `login <id>`
+                - `submit <title> <Affiliation> <ICode> <author2> <author3> <author4> <filename>`
+                - `status`
+        """
+
+        request_tokens  = request.split(" ")
+        request_type = request_tokens[0].lower() if len(request_tokens) > 0 else ""
+
+        if request_type == "status":
+            print(f"Author ID: {self.author_id}\n{self.status()}")
+
+        elif request_type == "register":
+            if len(request_tokens) < 6:
+                print("Invalid request: too few arguments.")
+                return
+            if request_tokens[1].lower() != "author":
+                print("Invalid request.")
+                return
+
+            f_name = request_tokens[2]
+            l_name = request_tokens[3]
+            email = request_tokens[4]
+            affiliation = request_tokens[5]
+
+            if self.register_author_if_nonexistent(f_name, l_name, email, affiliation):
+                print("Author registered successfully.")
+            else:
+                print("Author registration failed.")
+        elif request_type == "submit":
+            if len(request_tokens) < 4:
+                print("Invalid request: not enough arguments.")
+                return
+
+            title = request_tokens[1]
+            affiliation = request_tokens[2]
+            i_code = request_tokens[3]
+            
+            author_two = request_tokens[4] if len(request_tokens) > 4 else ""
+            author_three = request_tokens[5] if len(request_tokens) > 5 else ""
+            author_four = request_tokens[6] if len(request_tokens) > 6 else ""
+            filename = request_tokens[7] if len(request_tokens) > 7 else ""
+            
+
+            if self.submit_manuscript(title, affiliation, i_code, author_two, author_three, author_four, filename):
+                print("Manuscript submitted successfully.")
+            else:
+                print("Manuscript submission failed.")
+        elif request_type == "login":
+            if len(request_tokens) < 2:
+                print("Invalid request: not enough arguments.")
+                return
+
+            try:
+                author_id = int(request_tokens[1])
+                self.__init__(author_id)
+            except ValueError:
+                print("Invalid request: author ID must be an integer.")
+                return
+
+        else:
+            print("Invalid request.")
+        
+
 def test_author():
     for _ in range(3):
         print("\n\nTesting author instantiation, login, and status...\n")
@@ -335,25 +409,24 @@ def test_author():
             print(f"New status: {author.status()}")
         else:
             print("Manuscript submission failed.")
-        
-
-
-        # print("Submitting manuscript...")
-        # title = input("Enter title: ")
-        # affiliation = input("Enter affiliation ID: ")
-        # i_code = input("Enter institutional code: ")
-        # author_two = input("Enter author two ID: ")
-        # author_three = input("Enter author three ID: ")
-        # author_four = input("Enter author four ID: ")
-        # filename = input("Enter filename: ")
-
-        # if author.submit_manuscript(title, affiliation, i_code, author_two, author_three, author_four, filename):
-        #     print("Manuscript submitted successfully.")
-        # else:
-        #     print("Manuscript submission failed.")
 
         print(f"Author status: \n{author.status()}")
 
+def test_author_handle_request():
+    print("\n\nTesting author handle request...\n")
+    author_id = int(input("Enter author ID: "))
+    author = Author(author_id)
+    if author:
+        print("Author logged in successfully.")
+    else:
+        print("Author login failed.")
+        return
+
+    while True:
+        request = input("Enter request: ")
+        author.handle_request(request)
+        print(f"Author status: \n{author.status()}")
+    return
 
 
 class Editor:
@@ -655,9 +728,10 @@ if __name__ == '__main__':
 
     # test author
     # test_author()
+    test_author_handle_request()
 
     # test editor
-    test_editor()
+    # test_editor()
 
 
 
