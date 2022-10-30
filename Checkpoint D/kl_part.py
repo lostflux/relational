@@ -108,17 +108,14 @@ def register_reviewer(cursor, fname, lname, ICode_list):
     reviewer_id = None
     try:
         query = "INSERT INTO `Reviewer` (`f_name`,`l_name`) VALUES ('{}','{}');".format(fname, lname)
-        print("-->",query,"<--", end='\n')
         cursor.execute(query)
         reviewer_id = cursor.lastrowid
         for ICode in ICode_list:
             query = "INSERT INTO `Reviewer_has_RICodes` (`Reviewer_reviewer_ID`, `RICodes_code`) VALUES ({}, {});".format(reviewer_id, ICode)
-            print("-->",query,"<--", end='\n')
             cursor.execute(query)
     except mysql.connector.Error as err:
         print(err.msg)
     else:
-        print("OK")
         print("You have been registered as reviewer with ID: {}".format(reviewer_id))
         return True
     return False
@@ -161,12 +158,10 @@ def resign_reviewer(cursor, reviewer_id):
     """
     try:
         query = "DELETE FROM `Reviewer` WHERE `reviewer_ID` = {};".format(reviewer_id)
-        print("-->",query,"<--", end='')
         cursor.execute(query)
     except mysql.connector.Error as err:
         print(err.msg)
     else:
-        print("OK") 
         print("Thank you for your service!")
         return True
     return False
@@ -230,7 +225,6 @@ def set_manuscript_opinion(cursor, action, reviewer_id, output):
     except mysql.connector.Error as err:
         print(err.msg)
     else:
-        print("OK") 
         print("Successfully set your opinion on the manuscript")
         return True
     return False
@@ -248,7 +242,6 @@ def process_reviewer_login(reviewer_id):
             print("You have successfully logged out")
         else:
             action, output = process_reviewer_action(input_list)
-            print("action: {}, output: {}".format(action, output))
             if action and output:
                 process_reviewer_action_sql(curr_user_id, action, output)
     return
@@ -279,13 +272,11 @@ def register_editor(cursor, fname, lname):
     editor_id = None
     try:
         query = "INSERT INTO `Editor` (`f_name`,`l_name`) VALUES ('{}','{}');".format(fname, lname)
-        print("-->",query,"<--", end='')
         cursor.execute(query)
         editor_id = cursor.lastrowid
     except mysql.connector.Error as err:
         print(err.msg)
     else:
-        print("OK")
         print("You have been registered as editor with ID: {}".format(editor_id))
         return True
     return False
@@ -298,12 +289,10 @@ def publish_issue(cursor, issue):
     """
     try:
         query = "UPDATE `Manuscript` SET `status` = 'published' WHERE `issue` = {};".format(issue)
-        print("-->",query,"<--", end='')
         cursor.execute(query)
     except mysql.connector.Error as err:
         print(err.msg)
     else:
-        print("OK")
         print("Issue {} has been published".format(issue))
         return True
     return False
@@ -330,7 +319,6 @@ if __name__ == '__main__':
             action, output = process_reviewer_input(input_list)
             if action and output:
                 curr_role = "reviewer"
-                print("action: {}, output: {}".format(action, output))
                 register_res, login_res, resign_res = process_reviewer_sql(action, output)
                 if register_res != None and register_res == False:
                     print("Registration failed")
