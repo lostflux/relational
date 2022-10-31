@@ -18,7 +18,7 @@ def user_login(user_id: int):
         cursor = conn.cursor()
         cursor.execute(f"""
             SELECT user_type, type_id
-            FROM AllUsers
+            FROM credentials
             WHERE user_id = {user_id}""")
         row = cursor.fetchone()
         if row is not None:

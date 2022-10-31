@@ -42,19 +42,27 @@ class Reviewer:
                 VALUES ('{}','{}');""".format(fname, lname)
             cursor = self.conn.cursor()
             cursor.execute(query)
+            self.conn.commit()
             reviewer_id = cursor.lastrowid
+            success = True
+            user_id_query = f"""
+                SELECT user_id from credentials
+                WHERE user_type = 'Reviewer'
+                AND type_id = {reviewer_id}"""
+            cursor.execute(user_id_query)
+            user_id = int(cursor.fetchone()[0]) # get the user_id from the credentials table
+            print(f"Registered User ID: {user_id}") # print the user_id for the author
             for ICode in ICode_list:
                 query = """
                     INSERT INTO `Reviewer_has_RICodes` (`Reviewer_reviewer_ID`, `RICodes_code`)
                     VALUES ({}, {});""".format(reviewer_id, ICode)
                 cursor.execute(query)
+            self.conn.commit()
+            cursor.close()
         except mysql.connector.Error as err:
             print(err.msg)
-        else:
-            self.reviewer_id = reviewer_id
-            print("You have been registered as reviewer with ID: {}".format(self.reviewer_id))
-            return True
-        return False
+
+        return success
 
     def login(self, reviewer_id: int):
         """

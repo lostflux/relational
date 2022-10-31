@@ -113,6 +113,14 @@ class Editor:
             cursor.execute(query)
             self.conn.commit()
             success = True
+            editor_id = cursor.lastrowid
+            user_id_query = f"""
+                SELECT user_id from credentials
+                WHERE user_type = 'Editor'
+                AND type_id = {editor_id}"""
+            cursor.execute(user_id_query)
+            user_id = int(cursor.fetchone()[0]) # get the user_id from the credentials table
+            print(f"Registered User ID: {user_id}") # print the user_id for the author
         except mysql.self.connector.Error as err:
             print(err.msg)
         finally:
@@ -384,6 +392,7 @@ class Editor:
             "DROP TABLE IF EXISTS Reviewer_has_Manuscript;"
             "DROP TABLE IF EXISTS Manuscript;"
             "DROP TABLE IF EXISTS Reviewer_has_RICodes;"
+            "DROP TABLE IF EXISTS credentials;"
             "SET FOREIGN_KEY_CHECKS = 1;"
         ]
         try:
@@ -429,7 +438,7 @@ class Editor:
             f_name = request_tokens[2]
             l_name = request_tokens[3]
 
-            if self.register_editor_if_nonexistent(f_name, l_name):
+            if self.register_editor(f_name, l_name):
                 print("Editor registered successfully.")
             else:
                 print("Author registration failed.")
