@@ -25,7 +25,7 @@ class Editor:
         """
             Print the user prompt in the terminal
         """
-        return f"Editor {self.editor_id}"
+        return f"Editor {self.editor_id}> "
 
     # 2. editor status.
     def status(self):
@@ -50,9 +50,18 @@ class Editor:
 
         cursor = self.conn.cursor()
         cursor.execute(query)
-        results = "\n".join(f"{row}" for row in cursor)
+        results = ""
+        title = "Status"
+        title = f"| Manuscript #### | {title:>30} |"
+        delim = "-" * len(title)
+        for row in cursor:
+            manuscript_number, status = row
+            results += f"| Manuscript {manuscript_number:4d} | {status:>30} |\n{delim}\n"
+        cursor.close()
         if len(results) == 0:
-            results = "There are currently no manuscripts in the system."
+            results = "Editor has no manuscripts."
+        else:
+            results = f"{delim}\n{title}\n{delim}\n{results}"
 
         return results
 

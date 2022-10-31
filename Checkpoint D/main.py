@@ -55,7 +55,7 @@ def main():
     user_id = int(input("Enter User ID: "))
     user: "Author | Editor | Reviewer"  = user_login(user_id)
     while user:
-        request = input(f"{user.prompt}: ")
+        request = input(f"{user.prompt} ")
         if request.startswith("login"):
             new_user = handle_user_login(request)
             if new_user:

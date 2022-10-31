@@ -66,31 +66,18 @@ class Reviewer:
                 The ID of the reviewer.
         """
         try:
-            query = """
+            query = f"""
                 SELECT CONCAT('Hello, ', Reviewer.`f_name`, ' ', Reviewer.`l_name`)
-                FROM `Reviewer` WHERE Reviewer.`reviewer_ID` = {};""".format(reviewer_id)
+                FROM `Reviewer` WHERE Reviewer.`reviewer_ID` = {reviewer_id};"""
             cursor = self.conn.cursor()
             cursor.execute(query)
             result = cursor.fetchone()
             print(result[0], "\n")
-            print("Below is a list of manuscripts assigned to you:")
-            query = f"""SELECT Reviewer_has_Manuscript.`Manuscript_manuscript_number` 
-                        AS `Manuscript #`, Manuscript.status 
-                        FROM Reviewer_has_Manuscript, Manuscript 
-                        WHERE Reviewer_has_Manuscript.`Reviewer_reviewer_ID` = {reviewer_id}
-                        AND Manuscript.manuscript_number = Reviewer_has_Manuscript.`Manuscript_manuscript_number` 
-                        ORDER BY FIELD (Manuscript.status, 'under review', 'rejected', 'accepted', 'submitted', 'in typesetting', 'schedule for publication', 'published');"""
-            cursor.execute(query)
-            result = cursor.fetchall()
-            print('Manuscript #', 'Status')
-            print("--------------------")
-            for row in result:
-                print(row[0], row[1])
-            print("--------------------")
+            print(f"Status:\n{self.status()}\n")
+            return True
         except mysql.connector.Error as err:
             print(err.msg)
-            return False
-        return True
+        return False
 
     def resign_reviewer(self, reviewer_id: int):
         """Resign a reviewer
@@ -108,6 +95,35 @@ class Reviewer:
             print("Thank you for your service!")
             return True
         return False
+
+    def status(self):
+        """
+            Return current status as string
+        """
+
+        query = f"""SELECT Reviewer_has_Manuscript.`Manuscript_manuscript_number` 
+                        AS `Manuscript #`, Manuscript.status 
+                        FROM Reviewer_has_Manuscript, Manuscript 
+                        WHERE Reviewer_has_Manuscript.`Reviewer_reviewer_ID` = {self.reviewer_id}
+                        AND Manuscript.manuscript_number = Reviewer_has_Manuscript.`Manuscript_manuscript_number` 
+                        ORDER BY FIELD (Manuscript.status, 'under review', 'rejected', 'accepted', 'submitted', 'in typesetting', 'schedule for publication', 'published');"""
+        
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        results = ""
+        title = "Status"
+        title = f"| Manuscript #### | {title:>30} |"
+        delim = "-" * len(title)
+        for row in cursor:
+            manuscript_number, status = row
+            results += f"| Manuscript {manuscript_number:4d} | {status:>30} |\n{delim}\n"
+        cursor.close()
+        if len(results) == 0:
+            results = "Reviewer has no manuscripts."
+        else:
+            results = f"{delim}\n{title}\n{delim}\n{results}"
+
+        return results
 
     def set_manuscript_opinion(self, action, output):
         """Set the opinion of the reviewer on a manuscript
@@ -196,7 +212,7 @@ class Reviewer:
         return self.set_manuscript_opinion('reject', output)
 
 
-    def process_request(self, request: str):
+    def handle_request(self, request: str):
         """Process the input from the reviewer
 
         Arguments:
@@ -209,6 +225,9 @@ class Reviewer:
         input_size = len(input_list)
 
         action = input_list[0]
+
+        if action == 'status' and input_size == 1:
+            return print(f"Status:\n{self.status()}")
 
         if input_size == 2 and action == "resign":
             if input_list[1].isnumeric():

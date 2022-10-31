@@ -24,7 +24,7 @@ class Author:
     @property
     def prompt(self):
         """
-            Print the user prompt in the terminal
+            Get the user prompt for the terminal
         """
         return f"Author {self.author_id}> "
 
@@ -55,11 +55,11 @@ class Author:
             cursor = self.conn.cursor()
             cursor.execute(query)
             row = cursor.fetchone()
+            cursor.close()
             if row:
                 success = True
                 print(f"Welcome, author {self.author_id}!")
-                print(f"Status update: \n{self.status()}")
-            cursor.close()
+                print(f"Status update:\n{self.status()}")
         except Error as error:
             print(error)
 
@@ -89,9 +89,18 @@ class Author:
 
         cursor = self.conn.cursor()
         cursor.execute(query)
-        results = "\n".join(f"{row}" for row in cursor)
+        results = ""
+        title = "Status"
+        title = f"| Manuscript #### | {title:>30} |"
+        delim = "-" * len(title)
+        for row in cursor:
+            manuscript_number, status = row
+            results += f"| Manuscript {manuscript_number:4d} | {status:>30} |\n{delim}\n"
+        cursor.close()
         if len(results) == 0:
             results = "Author has no manuscripts."
+        else:
+            results = f"{delim}\n{title}\n{delim}\n{results}"
 
         return results
 
