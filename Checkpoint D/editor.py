@@ -3,7 +3,7 @@
 
 from mysql.connector import MySQLConnection, Error, errorcode, FieldType
 from dbconfig import read_db_config
-import getpass
+from getpass import getpass
 import mysql
 import sys
 from datetime import date
@@ -116,21 +116,30 @@ class Editor:
             INSERT INTO `Editor` (`f_name`,`l_name`)
             VALUES ('{fname}','{lname}')"""
 
+        password = getpass("Enter password: ")
+        
+        password_query = f"""
+            UPDATE AllUsers
+            SET password = MD5('{password}')
+            WHERE
+                user_type = "Editor"
+                AND type_id = (SELECT editor_ID FROM Editor WHERE f_name = '{fname}' AND l_name = '{lname}')
+        """
+
+        success = False
         try:
             cursor = self.conn.cursor()
             cursor.execute(query)
             self.conn.commit()
-            editor_id = cursor.lastrowid
+            if password:
+                cursor.execute(password_query)
+                self.conn.commit()
             success = True
         except mysql.self.connector.Error as err:
             print(err.msg)
         finally:
             cursor.close()
-        
-        if success:
-            self.editor_id = editor_id
-            print("You have been registered as editor with ID: {}".format(self.editor_id))
-            print(f"Status update: \n{self.status()}")
+
         return success
 
     # 4. editor assign manuscript
@@ -442,7 +451,7 @@ class Editor:
             f_name = request_tokens[2]
             l_name = request_tokens[3]
 
-            if self.register_editor_if_nonexistent(f_name, l_name):
+            if self.register_editor(f_name, l_name):
                 print("Editor registered successfully.")
             else:
                 print("Author registration failed.")

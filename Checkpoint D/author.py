@@ -239,16 +239,17 @@ class Author:
             bool: True if the author was registered successfully, False otherwise.
         """
 
-        password = getpass("Enter password: ")
 
         query = f"""
             INSERT INTO Author (f_name, l_name, email, Affiliation_affiliation_ID)
             VALUES ('{f_name}', '{l_name}', '{email}', '{affiliation}')
         """
 
+        password = getpass("Enter password: ")
+        
         password_query = f"""
-            ALTER AllUsers
-            SET PASSWORD = MD5('{password}')
+            UPDATE AllUsers
+            SET password = MD5('{password}')
             WHERE
                 user_type = "Author"
                 AND type_id = (SELECT author_ID FROM Author WHERE f_name = '{f_name}' AND l_name = '{l_name}')

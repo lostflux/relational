@@ -3,7 +3,7 @@
 
 from mysql.connector import MySQLConnection, Error, errorcode, FieldType
 from dbconfig import read_db_config
-import getpass
+from getpass import getpass
 import mysql
 import sys
 from datetime import date
@@ -27,7 +27,7 @@ class Reviewer:
         """
         return f"Reviewer {self.reviewer_id}> "
 
-    def register_reviewer(self, fname, lname, ICode_list):
+    def register_reviewer(self, fname: str, lname: str, ICode_list: "list[int]"):
         """Register a reviewer
 
         Arguments:
@@ -36,25 +36,47 @@ class Reviewer:
             ICode_list  -- list of interest codes
         """
         reviewer_id = None
+
+        query = """
+            INSERT INTO `Reviewer` (`f_name`,`l_name`)
+            VALUES ('{}','{}');""".format(fname, lname)
+    
+        password = getpass("Enter password: ")
+        
+        password_query = f"""
+            UPDATE AllUsers
+            SET password = MD5('{password}')
+            WHERE
+                user_type = "Reviewer"
+                AND type_id = (
+                    SELECT reviewer_ID FROM Reviewer
+                    WHERE f_name = '{fname}' AND l_name = '{lname}'
+                )
+        """
+
+        success = False
         try:
-            query = """
-                INSERT INTO `Reviewer` (`f_name`,`l_name`)
-                VALUES ('{}','{}');""".format(fname, lname)
             cursor = self.conn.cursor()
             cursor.execute(query)
             reviewer_id = cursor.lastrowid
             for ICode in ICode_list:
-                query = """
+                query = f"""
                     INSERT INTO `Reviewer_has_RICodes` (`Reviewer_reviewer_ID`, `RICodes_code`)
-                    VALUES ({}, {});""".format(reviewer_id, ICode)
+                    VALUES ({reviewer_id}, {ICode});"""
                 cursor.execute(query)
+
+            self.conn.commit()
+            if password:
+                cursor.execute(password_query)
+                self.conn.commit()
+            success = True
         except mysql.connector.Error as err:
             print(err.msg)
-        else:
-            self.reviewer_id = reviewer_id
-            print("You have been registered as reviewer with ID: {}".format(self.reviewer_id))
-            return True
-        return False
+
+        if success:
+            print("Reviewer registered successfully!")
+
+        return success
 
     def login(self, reviewer_id: int):
         """
