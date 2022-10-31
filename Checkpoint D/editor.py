@@ -288,7 +288,7 @@ class Editor:
                 query = f"""
                     SELECT page_count
                     FROM Manuscript
-                    WHERE manuscript_number = 43;
+                    WHERE manuscript_number = {manuscript_number};
                 """
                 cursor.execute(query)
                 res = cursor.fetchone()
@@ -302,8 +302,11 @@ class Editor:
                         WHERE manuscript_number = {manuscript_number};
                     """
                     cursor.execute(query)
-            self.conn.commit()
-            success = True
+                    self.conn.commit()
+                    success = True
+                else:
+                    print("Manuscript not ready or page count exceeds 100")
+                    success = False
         except Error as error:
             print(error)
         finally:
@@ -344,7 +347,7 @@ class Editor:
                 for row in result:
                     query3 = f"""
                         UPDATE Manuscript
-                        SET status = 'published', status_change_date={today}
+                        SET status = 'published', status_change_date='{today}'
                         WHERE manuscript_number = {row[0]};
                     """
                     cursor.execute(query3)
@@ -360,7 +363,7 @@ class Editor:
                     issue_id = row[0]
                     query5 = f"""
                         UPDATE Issue
-                        SET `publication_date`= {today}
+                        SET `publication_date`= '{today}'
                         WHERE `issue_ID` = {issue_id};
                     """
                     cursor.execute(query5)
@@ -395,6 +398,7 @@ class Editor:
             "DROP TABLE IF EXISTS credentials;"
             "SET FOREIGN_KEY_CHECKS = 1;"
         ]
+        success=False
         try:
             cursor = self.conn.cursor()
             for query in querys:
@@ -677,7 +681,7 @@ def test_editor_handle_request():
 if __name__ == '__main__':
 
     # test editor
-    test_editor()
+    # test_editor()
     test_editor_handle_request()
 
 
