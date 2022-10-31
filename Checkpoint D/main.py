@@ -28,10 +28,14 @@ def user_login(user_id: int):
         encrypted_password = cursor.fetchone()[0]
 
         fetch_user = f"""
-                SELECT user_type, type_id, password
-                FROM credentials
-                WHERE user_id = {user_id}"""
+            SELECT user_type, type_id, password
+            FROM credentials
+            WHERE user_id = {user_id}"""
         cursor.execute(fetch_user)
+        cursor.execute(f"""
+            SELECT user_type, type_id
+            FROM credentials
+            WHERE user_id = {user_id}""")
         row = cursor.fetchone()
         if row is not None:
             user_type, type_id, password = row

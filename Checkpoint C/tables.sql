@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS Reviewer_has_Manuscript;
 DROP TABLE IF EXISTS Manuscript;
 DROP TABLE IF EXISTS Reviewer_has_RICodes;
 DROP TABLE IF EXISTS credentials;
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 

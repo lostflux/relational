@@ -58,7 +58,16 @@ class Reviewer:
         try:
             cursor = self.conn.cursor()
             cursor.execute(query)
+            self.conn.commit()
             reviewer_id = cursor.lastrowid
+            success = True
+            user_id_query = f"""
+                SELECT user_id from credentials
+                WHERE user_type = 'Reviewer'
+                AND type_id = {reviewer_id}"""
+            cursor.execute(user_id_query)
+            user_id = int(cursor.fetchone()[0]) # get the user_id from the credentials table
+            print(f"Registered User ID: {user_id}") # print the user_id for the author
             for ICode in ICode_list:
                 query = f"""
                     INSERT INTO `Reviewer_has_RICodes` (`Reviewer_reviewer_ID`, `RICodes_code`)
@@ -75,6 +84,9 @@ class Reviewer:
 
         if success:
             print("Reviewer registered successfully!")
+
+            self.conn.commit()
+            cursor.close()
 
         return success
 

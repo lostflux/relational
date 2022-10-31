@@ -263,7 +263,16 @@ class Author:
             if password:
                 cursor.execute(password_query)
                 self.conn.commit()
+            author_id = cursor.lastrowid
             success = True
+            user_id_query = f"""
+                SELECT user_id from credentials
+                WHERE user_type = 'Author'
+                AND type_id = {author_id}"""
+            cursor.execute(user_id_query)
+            user_id = int(cursor.fetchone()[0]) # get the user_id from the credentials table
+            print(f"Registered User ID: {user_id}") # print the user_id for the author
+
         except Error as error:
             print(error)
         finally:
