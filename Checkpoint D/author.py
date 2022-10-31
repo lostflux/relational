@@ -3,7 +3,7 @@
 
 from mysql.connector import MySQLConnection, Error, errorcode, FieldType
 from dbconfig import read_db_config
-import getpass
+from getpass import getpass
 import mysql
 import sys
 from datetime import date
@@ -239,9 +239,19 @@ class Author:
             bool: True if the author was registered successfully, False otherwise.
         """
 
+        password = getpass("Enter password: ")
+
         query = f"""
             INSERT INTO Author (f_name, l_name, email, Affiliation_affiliation_ID)
             VALUES ('{f_name}', '{l_name}', '{email}', '{affiliation}')
+        """
+
+        password_query = f"""
+            ALTER AllUsers
+            SET PASSWORD = MD5('{password}')
+            WHERE
+                user_type = "Author"
+                AND type_id = (SELECT author_ID FROM Author WHERE f_name = '{f_name}' AND l_name = '{l_name}')
         """
 
         success = False
@@ -250,6 +260,9 @@ class Author:
             cursor = self.conn.cursor()
             cursor.execute(query)
             self.conn.commit()
+            if password:
+                cursor.execute(password_query)
+                self.conn.commit()
             success = True
         except Error as error:
             print(error)
