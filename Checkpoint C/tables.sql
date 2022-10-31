@@ -28,11 +28,8 @@ DROP TABLE IF EXISTS Manuscript_Author;
 DROP TABLE IF EXISTS Journal_has_RICodes;
 DROP TABLE IF EXISTS Reviewer_has_Manuscript;
 DROP TABLE IF EXISTS Manuscript;
-
 DROP TABLE IF EXISTS Reviewer_has_RICodes;
-
-DROP TABLE IF EXISTS AllUsers;
-
+DROP TABLE IF EXISTS credentials;
 SET FOREIGN_KEY_CHECKS = 1;
 
 
@@ -169,7 +166,7 @@ CREATE TABLE Reviewer_has_RICodes
     FOREIGN KEY   (RICodes_code)          REFERENCES RICodes(code)
   );
 
-CREATE TABLE AllUsers
+CREATE TABLE credentials
   (
     user_id   BIGINT        NOT NULL  PRIMARY KEY AUTO_INCREMENT,
     password  VARCHAR(255)  DEFAULT NULL,
@@ -185,7 +182,7 @@ CREATE TRIGGER IndexAuthor
   FOR EACH ROW
   BEGIN
     SET @author_id = NEW.author_ID;
-    INSERT INTO AllUsers (password, user_type, type_id)
+    INSERT INTO credentials (password, user_type, type_id)
     VALUES (NULL, 'Author', @author_id);
   END$$
 DELIMITER ;
@@ -197,7 +194,7 @@ CREATE TRIGGER IndexReviewer
   FOR EACH ROW
   BEGIN
     SET @reviewer_id = NEW.reviewer_ID;
-    INSERT INTO AllUsers (password, user_type, type_id)
+    INSERT INTO credentials (password, user_type, type_id)
     VALUES (NULL, 'Reviewer', @reviewer_id);
   END$$
 DELIMITER ;
@@ -209,7 +206,7 @@ CREATE TRIGGER IndexEditor
   FOR EACH ROW
   BEGIN
     SET @editor_id = NEW.editor_ID;
-    INSERT INTO AllUsers (password, user_type, type_id)
+    INSERT INTO credentials (password, user_type, type_id)
     VALUES (NULL, 'Editor', @editor_id);
   END$$
 DELIMITER ;

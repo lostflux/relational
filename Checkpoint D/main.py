@@ -29,7 +29,7 @@ def user_login(user_id: int):
 
         fetch_user = f"""
                 SELECT user_type, type_id, password
-                FROM AllUsers
+                FROM credentials
                 WHERE user_id = {user_id}"""
         cursor.execute(fetch_user)
         row = cursor.fetchone()

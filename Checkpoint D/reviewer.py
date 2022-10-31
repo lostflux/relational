@@ -44,7 +44,7 @@ class Reviewer:
         password = getpass("Enter password: ")
         
         password_query = f"""
-            UPDATE AllUsers
+            UPDATE credentials
             SET password = MD5('{password}')
             WHERE
                 user_type = "Reviewer"
