@@ -4,6 +4,7 @@
 from mysql.connector import MySQLConnection, Error, errorcode, FieldType
 from dbconfig import read_db_config
 import shlex
+from getpass import getpass
 
 from author import Author
 from editor import Editor
@@ -12,18 +13,32 @@ from reviewer import Reviewer
 
 def user_login(user_id: int):
     """Login user"""
+
     try:
         db_config = read_db_config()
         conn = MySQLConnection(**db_config)
         cursor = conn.cursor()
-        cursor.execute(f"""
-            SELECT user_type, type_id
-            FROM AllUsers
-            WHERE user_id = {user_id}""")
+
+        user_password = getpass("Enter password: ")
+        encryption_query = f"""
+            SELECT MD5('{user_password}') AS encrypted_password
+        """
+
+        cursor.execute(encryption_query)
+        encrypted_password = cursor.fetchone()[0]
+
+        fetch_user = f"""
+                SELECT user_type, type_id, password
+                FROM AllUsers
+                WHERE user_id = {user_id}"""
+        cursor.execute(fetch_user)
         row = cursor.fetchone()
         if row is not None:
-            user_type, type_id = row
-            if user_type == "Author":
+            user_type, type_id, password = row
+            if password and password != encrypted_password:
+                print("Incorrect password!\nPlease try again.")
+                return None
+            elif user_type == "Author":
                 cursor.close()
                 return Author(type_id, conn)
             elif user_type == "Editor":
