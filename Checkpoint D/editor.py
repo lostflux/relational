@@ -69,11 +69,6 @@ class Editor:
     def login(self):
         """
             Editor login.
-            
-            Params
-            ------
-            `editor_id`: int
-                Editor ID.
 
             Returns
             -------
@@ -81,25 +76,22 @@ class Editor:
         """
 
         query = f"""
-            SELECT * FROM Editor
-            WHERE editor_ID = {self.editor_id}
-        """
+            SELECT CONCAT('Hello, ', Editor.f_name, ' ', Editor.l_name)
+            FROM Editor WHERE Editor.editor_ID = {self.editor_id}"""
 
         success = False
 
         try:
             cursor = self.conn.cursor()
             cursor.execute(query)
-            row = cursor.fetchone()
-            if row:
+            result = cursor.fetchone()
+            cursor.close()
+            if result:
                 success = True
-                print(f"Welcome, editor {self.editor_id}!")
-                print(f"Status update: \n{self.status()}")
-
+                print(result[0], "\n")
+                print(f"Status:\n{self.status()}\n")
         except Error as error:
             print(error)
-        finally:
-            cursor.close()
 
         return success
 
