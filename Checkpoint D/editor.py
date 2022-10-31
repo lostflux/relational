@@ -381,27 +381,28 @@ class Editor:
             Reset the database to its initial state.
         """
 
-        querys = [
-            "SET FOREIGN_KEY_CHECKS = 0;"
-            "DROP TABLE IF EXISTS RICodes;"
-            "DROP TABLE IF EXISTS Affiliation;"
-            "DROP TABLE IF EXISTS Journal;"
-            "DROP TABLE IF EXISTS Issue;"
-            "DROP TABLE IF EXISTS Editor;"
-            "DROP TABLE IF EXISTS Reviewer;"
-            "DROP TABLE IF EXISTS Author;"
-            "DROP TABLE IF EXISTS Manuscript_Author;"
-            "DROP TABLE IF EXISTS Journal_has_RICodes;"
-            "DROP TABLE IF EXISTS Reviewer_has_Manuscript;"
-            "DROP TABLE IF EXISTS Manuscript;"
-            "DROP TABLE IF EXISTS Reviewer_has_RICodes;"
-            "DROP TABLE IF EXISTS credentials;"
+        queries = [
+            "SET FOREIGN_KEY_CHECKS = 0;",
+            "DROP TABLE IF EXISTS RICodes;",
+            "DROP TABLE IF EXISTS Affiliation;",
+            "DROP TABLE IF EXISTS Journal;",
+            "DROP TABLE IF EXISTS Issue;",
+            "DROP TABLE IF EXISTS Editor;",
+            "DROP TABLE IF EXISTS Reviewer;",
+            "DROP TABLE IF EXISTS Author;",
+            "DROP TABLE IF EXISTS Manuscript_Author;",
+            "DROP TABLE IF EXISTS Journal_has_RICodes;",
+            "DROP TABLE IF EXISTS Reviewer_has_Manuscript;",
+            "DROP TABLE IF EXISTS Manuscript;",
+            "DROP TABLE IF EXISTS Reviewer_has_RICodes;",
+            "DROP TABLE IF EXISTS credentials;",
             "SET FOREIGN_KEY_CHECKS = 1;"
         ]
         success=False
         try:
             cursor = self.conn.cursor()
-            for query in querys:
+            # cursor.execute(queries, multi=True)
+            for query in queries:
                 cursor.execute(query)
             self.conn.commit()
             success = True
@@ -530,6 +531,7 @@ class Editor:
         elif request_type == "reset":
             self.reset_database()
             print("Database reset successfully.")
+            return -1
         elif request_type == "exit":
             print("Exiting...")
             exit(0)
@@ -673,8 +675,11 @@ def test_editor_handle_request():
         return
     while True:
         request = input("Enter request: ")
-        editor.handle_request(request)
-        print(f"Editor status: \n{editor.status()}")
+        res = editor.handle_request(request)
+        if res and res == -1:
+            return
+        else:
+            print(f"Editor status: \n{editor.status()}")
     return
 
 
