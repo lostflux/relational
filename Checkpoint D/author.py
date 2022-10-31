@@ -45,21 +45,20 @@ class Author:
         """
 
         query = f"""
-            SELECT * FROM Author
-            WHERE author_ID = {self.author_id}
-        """
+            SELECT CONCAT('Hello, ', Author.f_name, ' ', Author.l_name)
+            FROM Author WHERE Author.author_ID = {self.author_id}"""
 
         success = False
 
         try:
             cursor = self.conn.cursor()
             cursor.execute(query)
-            row = cursor.fetchone()
+            result = cursor.fetchone()
             cursor.close()
-            if row:
+            if result:
                 success = True
-                print(f"Welcome, author {self.author_id}!")
-                print(f"Status update:\n{self.status()}")
+                print(result[0], "\n")
+                print(f"Status:\n{self.status()}\n")
         except Error as error:
             print(error)
 
