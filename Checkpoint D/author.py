@@ -148,7 +148,7 @@ class Author:
             author_two_fname = author_two_tokens[0]
             author_two_lname = author_two_tokens[1] if len(author_two_tokens) > 1 else ""
             print(f"Author two is:  --> {author_two_fname}, {author_two_lname}")
-            Author.register_author_if_nonexistent(author_two_fname, author_two_lname, "", affiliation)
+            self.register_author_if_nonexistent(author_two_fname, author_two_lname, "", affiliation)
             author_two_id = self.get_author_id(author_two_fname, author_two_lname)
             queries.append(f"""
                 INSERT INTO Manuscript_Author (Author_author_id, Manuscript_manuscript_number, author_ordinal)
@@ -158,7 +158,7 @@ class Author:
             author_three_tokens = author_three.split(" ")
             author_three_fname = author_three_tokens[0]
             author_three_lname = author_three_tokens[1] if len(author_three_tokens) > 1 else ""
-            Author.register_author_if_nonexistent(author_three_fname, author_three_lname, "", affiliation)
+            self.register_author_if_nonexistent(author_three_fname, author_three_lname, "", affiliation)
             author_three_id = self.get_author_id(author_three_fname, author_three_lname)
             queries.append(f"""
                 INSERT INTO Manuscript_Author (Author_author_id, Manuscript_manuscript_number, author_ordinal)
@@ -169,7 +169,7 @@ class Author:
             author_four_tokens = author_four.split(" ")
             author_four_fname = author_four_tokens[0]
             author_four_lname = author_four_tokens[1] if len(author_four_tokens) > 1 else ""
-            Author.register_author_if_nonexistent(author_four_fname, author_four_lname, "", affiliation)
+            self.register_author_if_nonexistent(author_four_fname, author_four_lname, "", affiliation)
             author_four_id = self.get_author_id(author_four_fname, author_four_lname)
             queries.append(f"""
                 INSERT INTO Manuscript_Author (Author_author_id, Manuscript_manuscript_number, author_ordinal)
@@ -303,7 +303,7 @@ class Author:
         if row:
             return False
         else:
-            return Author.register_author(f_name, l_name, email, affiliation)
+            return self.register_author(f_name, l_name, email, affiliation)
 
     def handle_request(self, request: str):
         """
@@ -408,7 +408,7 @@ def test_author():
             print(row)
         cursor.close()
 
-        success = Author.register_author_if_nonexistent(f_name, l_name, email, affiliation)
+        success = author.register_author_if_nonexistent(f_name, l_name, email, affiliation)
 
         if success:
             print("Author registered successfully.")
