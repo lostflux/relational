@@ -383,19 +383,19 @@ class Editor:
 
         queries = [
             "SET FOREIGN_KEY_CHECKS = 0;",
-            "DROP TABLE IF EXISTS RICodes;",
-            "DROP TABLE IF EXISTS Affiliation;",
-            "DROP TABLE IF EXISTS Journal;",
-            "DROP TABLE IF EXISTS Issue;",
-            "DROP TABLE IF EXISTS Editor;",
-            "DROP TABLE IF EXISTS Reviewer;",
-            "DROP TABLE IF EXISTS Author;",
-            "DROP TABLE IF EXISTS Manuscript_Author;",
-            "DROP TABLE IF EXISTS Journal_has_RICodes;",
-            "DROP TABLE IF EXISTS Reviewer_has_Manuscript;",
-            "DROP TABLE IF EXISTS Manuscript;",
-            "DROP TABLE IF EXISTS Reviewer_has_RICodes;",
-            "DROP TABLE IF EXISTS credentials;",
+            "TRUNCATE TABLE RICodes;",
+            "TRUNCATE TABLE Affiliation;",
+            "TRUNCATE TABLE Journal;",
+            "TRUNCATE TABLE Issue;",
+            "TRUNCATE TABLE Editor;",
+            "TRUNCATE TABLE Reviewer;",
+            "TRUNCATE TABLE Author;",
+            "TRUNCATE TABLE Manuscript_Author;",
+            "TRUNCATE TABLE Journal_has_RICodes;",
+            "TRUNCATE TABLE Reviewer_has_Manuscript;",
+            "TRUNCATE TABLE Manuscript;",
+            "TRUNCATE TABLE Reviewer_has_RICodes;",
+            "TRUNCATE TABLE credentials;",
             "SET FOREIGN_KEY_CHECKS = 1;"
         ]
         success=False
