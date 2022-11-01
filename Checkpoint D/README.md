@@ -69,22 +69,22 @@ Here's the composition of this directory:
 
 
 # file composition
-λ> cloc .
+λ> cloc .          
       18 text files.
       18 unique files.                              
        0 files ignored.
 
-github.com/AlDanial/cloc v 1.94  T=0.04 s (403.9 files/s, 85416.3 lines/s)
+github.com/AlDanial/cloc v 1.94  T=0.04 s (411.8 files/s, 89293.1 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
 SQL                              7            131            180           1612
-Python                           5            238            436            894
-Markdown                         3             69              0            186
+Python                           5            257            464            928
+Markdown                         3             74              0            196
 make                             2             14             13             28
 INI                              1              1              0              5
 -------------------------------------------------------------------------------
-SUM:                            18            453            629           2725
+SUM:                            18            477            657           2769
 -------------------------------------------------------------------------------
 ```
 
