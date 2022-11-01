@@ -86,20 +86,32 @@ class Author:
             AND LeadAuthorManuscripts.manuscript_number = Manuscript.manuscript_number
         """
 
+        time_stamp = f"""
+            SELECT MAX(Manuscript.status_change_date)
+            FROM Manuscript, LeadAuthorManuscripts
+            WHERE LeadAuthorManuscripts.author_id = {self.author_id}
+            AND LeadAuthorManuscripts.manuscript_number = Manuscript.manuscript_number
+        """
+
         cursor = self.conn.cursor()
         cursor.execute(query)
-        results = ""
+        
         title = "Status"
         title = f"| Manuscript #### | {title:>30} |"
         delim = "-" * len(title)
+
+        results = ""
         for row in cursor:
             manuscript_number, status = row
             results += f"| Manuscript {manuscript_number:4d} | {status:>30} |\n{delim}\n"
-        cursor.close()
         if len(results) == 0:
             results = "Author has no manuscripts."
         else:
+            cursor.execute(time_stamp)
+            last_change_date = cursor.fetchone()[0]
+            title = f"\nLast Change: {last_change_date}\n\n{delim}\n" + title
             results = f"{delim}\n{title}\n{delim}\n{results}"
+        cursor.close()
 
         return results
 
