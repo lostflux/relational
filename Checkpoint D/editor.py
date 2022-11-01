@@ -302,7 +302,7 @@ class Editor:
                 query = f"""
                     SELECT page_count
                     FROM Manuscript
-                    WHERE manuscript_number = 43;
+                    WHERE manuscript_number = {manuscript_number};
                 """
                 cursor.execute(query)
                 res = cursor.fetchone()
@@ -316,8 +316,11 @@ class Editor:
                         WHERE manuscript_number = {manuscript_number};
                     """
                     cursor.execute(query)
-            self.conn.commit()
-            success = True
+                    self.conn.commit()
+                    success = True
+                else:
+                    print("Manuscript not ready or page count exceeds 100")
+                    success = False
         except Error as error:
             print(error)
         finally:
@@ -358,7 +361,7 @@ class Editor:
                 for row in result:
                     query3 = f"""
                         UPDATE Manuscript
-                        SET status = 'published', status_change_date={today}
+                        SET status = 'published', status_change_date='{today}'
                         WHERE manuscript_number = {row[0]};
                     """
                     cursor.execute(query3)
@@ -374,7 +377,7 @@ class Editor:
                     issue_id = row[0]
                     query5 = f"""
                         UPDATE Issue
-                        SET `publication_date`= {today}
+                        SET `publication_date`= '{today}'
                         WHERE `issue_ID` = {issue_id};
                     """
                     cursor.execute(query5)
@@ -392,26 +395,28 @@ class Editor:
             Reset the database to its initial state.
         """
 
-        querys = [
-            "SET FOREIGN_KEY_CHECKS = 0;"
-            "DROP TABLE IF EXISTS RICodes;"
-            "DROP TABLE IF EXISTS Affiliation;"
-            "DROP TABLE IF EXISTS Journal;"
-            "DROP TABLE IF EXISTS Issue;"
-            "DROP TABLE IF EXISTS Editor;"
-            "DROP TABLE IF EXISTS Reviewer;"
-            "DROP TABLE IF EXISTS Author;"
-            "DROP TABLE IF EXISTS Manuscript_Author;"
-            "DROP TABLE IF EXISTS Journal_has_RICodes;"
-            "DROP TABLE IF EXISTS Reviewer_has_Manuscript;"
-            "DROP TABLE IF EXISTS Manuscript;"
-            "DROP TABLE IF EXISTS Reviewer_has_RICodes;"
-            "DROP TABLE IF EXISTS credentials;"
+        queries = [
+            "SET FOREIGN_KEY_CHECKS = 0;",
+            "TRUNCATE TABLE RICodes;",
+            "TRUNCATE TABLE Affiliation;",
+            "TRUNCATE TABLE Journal;",
+            "TRUNCATE TABLE Issue;",
+            "TRUNCATE TABLE Editor;",
+            "TRUNCATE TABLE Reviewer;",
+            "TRUNCATE TABLE Author;",
+            "TRUNCATE TABLE Manuscript_Author;",
+            "TRUNCATE TABLE Journal_has_RICodes;",
+            "TRUNCATE TABLE Reviewer_has_Manuscript;",
+            "TRUNCATE TABLE Manuscript;",
+            "TRUNCATE TABLE Reviewer_has_RICodes;",
+            "TRUNCATE TABLE credentials;",
             "SET FOREIGN_KEY_CHECKS = 1;"
         ]
+        success=False
         try:
             cursor = self.conn.cursor()
-            for query in querys:
+            # cursor.execute(queries, multi=True)
+            for query in queries:
                 cursor.execute(query)
             self.conn.commit()
             success = True
@@ -540,6 +545,7 @@ class Editor:
         elif request_type == "reset":
             self.reset_database()
             print("Database reset successfully.")
+            return -1
         elif request_type == "exit":
             print("Exiting...")
             exit(0)
@@ -683,15 +689,18 @@ def test_editor_handle_request():
         return
     while True:
         request = input("Enter request: ")
-        editor.handle_request(request)
-        print(f"Editor status: \n{editor.status()}")
+        res = editor.handle_request(request)
+        if res and res == -1:
+            return
+        else:
+            print(f"Editor status: \n{editor.status()}")
     return
 
 
 if __name__ == '__main__':
 
     # test editor
-    test_editor()
+    # test_editor()
     test_editor_handle_request()
 
 
