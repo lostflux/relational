@@ -21,6 +21,22 @@ To test our program, run `make`.
 >      - Modify [dbconfig.ini][def] with your desired database, server, and credentials.
 >      - Modify [sql/Makefile](./sql/Makefile) with your desired database, server, adn credentials.
 
+---
+
+## Note on Extra-Credit Implementation
+
+As a possible extension, we implemented the password feature described in the assignment.
+We achieve authentication by saving a scrambled version of the password provided at registration.
+When a user attempts to login, we ask for a password and check if the scrambled version matches the one in the database.
+
+Pre-existing users without passwords are still able to login by providing an empty password.
+New users can be registered without passwords (just don't type in anything at the password prompt)
+and will be able to log in the same way as above.
+
+However, users who did provide a password at registration **must** provide
+the same exact password at login to be granted access.
+
+---
 
 Here's the composition of this directory:
 
