@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v3
       - run: echo "Currently in ${{ github.workspace }}."
       - run: echo "ls = $(ls)"
-      - run: conda create --n db --f ${{github.workspace }}/requirements.txt -c conda-forge
+      - run: conda create -n db -f ${{github.workspace }}/requirements.txt -c conda-forge
       - run: echo "Activating conda env"
       - run: echo "Shell = $SHELL"
       - run: conda init bash && bash 
