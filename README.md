@@ -1,40 +1,51 @@
 # CS 61: Database Systems
-## Problem Set 2: MySQL Application
+## MySQL Application
 ## Fall 2022
-## [Ke Lou](https://github.com/fpoon777), [Amittai Siavava](https://github.com/siavava)
+## Project by: [Ke Lou](https://github.com/fpoon777), [Amittai Siavava](https://github.com/siavava)
 
-This directory contains the files for our submission
-for CS-61 lab 2d.
+To test our program, run `make`. Alternatively, run `main.py`.
 
-To test our program, run `make`.
+See [requirements.txt][reqs] for Python dependencies.
 
-> Note:
-> 1. For our program to work as intended, the underlying database must have been already set up.
->   We have included the SQL files from Lab 2c under the [sql][def2] directory.
->   You can run them by either `make` inside [sql][def2] or `make database` inside
->   the current directory.
->   The scripts rebuild the database and insert sample data.
+
+
+> **Note**
+> 1. Like any logical program, functionality is heavily dependent on
+>    the underlying database being properly built.
+>    For this:
+>    - Modify [dbconfig.ini][dbconfig] to point to either a local or remote MySQL database. Or use ours.
+>    - If running on a new database, provide the `/rebuild` flag to reconstruct the table structure.
+>       - Additionally, provide the `/populate` flag to populate the database with sample data. Otherwise, the database will be empty, with only two admin users available to register others.
 > 2. Please only specify your user ID at the initial prompt.
 >      - Do not add the `login` command.
 >      - Thereafter, switching users will follow the usual `login <user-id>` command.
-> 3. If you wish to use a different database name or location:
->      - Modify [dbconfig.ini][def] with your desired database, server, and credentials.
->      - Modify [sql/Makefile](./sql/Makefile) with your desired database, server, adn credentials.
 
 ---
 
-## Note on Extra-Credit Implementation
+## Note on Passwords
 
-As a possible extension, we implemented the password feature described in the assignment.
-We achieve authentication by saving a scrambled version of the password provided at registration.
-When a user attempts to login, we ask for a password and check if the scrambled version matches the one in the database.
+Passwords are handled leniently. They are not required
+(just press enter in the password prompt when registering a new user).
+however, if a password is provided, it must be matched exactly
+when logging in.
 
-Pre-existing users without passwords are still able to login by providing an empty password.
-New users can be registered without passwords (just don't type in anything at the password prompt)
-and will be able to log in the same way as above.
+The two default users are:
+- `Admin 1` with password `siavava`
+- `Admin 2` with password `lou`
 
-However, users who did provide a password at registration **must** provide
-the same exact password at login to be granted access.
+If modifications are desired, see the end of [tables.sql][tables]
+
+---
+
+## Note on Database Structure
+
+See the [sql folder][sql] for relevant SQL code for creating, managing, and 
+populating the database.
+
+See [dbutils][dbutils] for some Python code that interacts with the database.
+
+Other modules ([Author][author], [Editor][editor], [Reviewer][reviewer], etc.)
+interact briefly with the database to perform their respective tasks.
 
 ---
 
@@ -43,51 +54,66 @@ Here's the composition of this directory:
 ```bash
 
 # files in the directory
-λ> tree                      
+λ> tree
 .
 ├── Makefile
 ├── README.md
-├── author.py
+├── assignment.md
 ├── dbconfig.ini
-├── dbconfig.py
-├── editor.py
 ├── main.py
-├── reviewer.py
-└── sql
-    ├── Makefile
-    ├── README.md
-    ├── assignment.md
-    ├── insert.sql
-    ├── procedures.sql
-    ├── procedurestest.sql
-    ├── tables.sql
-    ├── triggersetup.sql
-    ├── triggertest.sql
-    └── views.sql
+└── utils
+    ├── __init__.py
+    ├── author.py
+    ├── dbconfig.py
+    ├── dbutils.py
+    ├── editor.py
+    ├── logging.py
+    ├── reviewer.py
+    ├── sql
+    │   ├── Makefile
+    │   ├── README.md
+    │   ├── assignment.md
+    │   ├── clear.sql
+    │   ├── data.sql
+    │   ├── procedures.sql
+    │   ├── procedurestest.sql
+    │   ├── tables.sql
+    │   ├── triggers.sql
+    │   ├── triggertest.sql
+    │   └── views.sql
+    ├── superuser.py
+    └── user.py
 
-1 directory, 18 files
+2 directories, 25 files
 
 
 # file composition
-λ> cloc .          
-      18 text files.
-      18 unique files.                              
-       0 files ignored.
+λ> cloc .    
+      27 text files.
+      25 unique files.                              
+       4 files ignored.
 
-github.com/AlDanial/cloc v 1.94  T=0.04 s (411.8 files/s, 89293.1 lines/s)
+github.com/AlDanial/cloc v 1.94  T=0.03 s (774.5 files/s, 135253.2 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-SQL                              7            131            180           1612
-Python                           5            257            464            928
-Markdown                         3             74              0            196
-make                             2             14             13             28
+SQL                              8            140            190           1616
+Python                          10            341            589           1143
+Markdown                         3             74              0            204
+make                             2             14             13             30
+JSON                             1              0              0              6
 INI                              1              1              0              5
 -------------------------------------------------------------------------------
-SUM:                            18            477            657           2769
+SUM:                            25            570            792           3004
 -------------------------------------------------------------------------------
 ```
 
 
-[def]: dbconfig.ini
-[def2]: sql
+[dbconfig]: dbconfig.ini
+[tables]: utils/sql/tables.sql
+[reqs]: requirements.txt
+[sql]: utils/sql
+[dbutils]: utils/dbutils.py
+[author]: utils/author.py
+[editor]: utils/editor.py
+[reviewer]: utils/reviewer.py

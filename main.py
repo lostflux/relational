@@ -82,8 +82,10 @@ def handle_user_login(request: str) -> User:
 def main():
   """Main function"""
 
-  if len(argv) == 2:
-    if argv[1] == "/clean":
+  if len(argv) >= 2 and argv[1] == "/rebuild":
+    if len(argv) >= 3 and argv[2] == "/withdata":
+      build_database(load_data=True)
+    else:
       build_database()
 
   user_id = int(input("Enter User ID: "))
