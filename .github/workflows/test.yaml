@@ -13,6 +13,8 @@ jobs:
       - run: echo "ls = $(ls)"
       - run: conda create --name db --file ${{github.workspace }}/requirements.txt -c conda-forge
       - run: echo "Activating conda env"
+      - run: echo "Shell = $SHELL"
+      - run: conda init bash
       - run: conda activate db
       - run: echo "Running whatever"
       - run: make & pid=$!; sleep 60; kill $pid
