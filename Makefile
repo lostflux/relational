@@ -15,4 +15,5 @@ database:
 
 clean:
 	rm -rf __pycache__ *.pyc
-	make -C ./sql clean
+	rm -rf ./utils/__pycache__
+	make -C ./utils/sql clean
