@@ -61,6 +61,7 @@ Here's the composition of this directory:
 ├── assignment.md
 ├── dbconfig.ini
 ├── main.py
+├── requirements.txt
 └── utils
     ├── __init__.py
     ├── author.py
@@ -84,27 +85,28 @@ Here's the composition of this directory:
     ├── superuser.py
     └── user.py
 
-2 directories, 25 files
+2 directories, 26 files
 
 
 # file composition
-λ> cloc .    
-      27 text files.
-      25 unique files.                              
-       4 files ignored.
+λ> cloc .                          
+      28 text files.
+      26 unique files.                              
+      13 files ignored.
 
-github.com/AlDanial/cloc v 1.94  T=0.03 s (774.5 files/s, 135253.2 lines/s)
+github.com/AlDanial/cloc v 1.94  T=0.07 s (390.1 files/s, 66834.6 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
 SQL                              8            140            190           1616
-Python                          10            341            589           1143
-Markdown                         3             74              0            204
+Python                          10            341            589           1145
+Markdown                         3             81              0            215
+Text                             1              0              0             70
 make                             2             14             13             30
 JSON                             1              0              0              6
-INI                              1              1              0              5
+INI                              1              0              0              5
 -------------------------------------------------------------------------------
-SUM:                            25            570            792           3004
+SUM:                            26            576            792           3087
 -------------------------------------------------------------------------------
 ```
 
