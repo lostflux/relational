@@ -6,9 +6,9 @@ all: run
 
 .PHONY: run database clean
 
-run: main.py author.py editor.py reviewer.py dbconfig.py dbconfig.ini
+run: main.py utils dbconfig.ini
 	@printf "Running program...\n\n"
-	@python3 main.py
+	@python3 main.py /clean
 
 database:
 	@make -C ./sql
