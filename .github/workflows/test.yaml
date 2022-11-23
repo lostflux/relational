@@ -5,17 +5,13 @@ jobs:
   TestChanges:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Test run automatically triggered by push."
-      - run: echo "Initializing conda env on ${{ runner.os }} on branch ${{ github.ref }}."
-      - name: Check out repository code
+      - name: Checkout
         uses: actions/checkout@v3
-      - run: echo "Currently in ${{ github.workspace }}."
-      - run: echo "ls = $(ls)"
-      - run: conda create -n db --file ${{github.workspace }}/requirements.txt -c conda-forge
-      - run: echo "Activating conda env"
-      - run: echo "Shell = $SHELL"
-      - run: conda init bash && bash 
-      - run: conda activate db
+      - name: Install conda packages
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: test
+          environment-file: ${{github.workspace }}/requirements.txt
       - run: echo "Running whatever"
       - run: make & pid=$!; sleep 60; kill $pid
       - run: echo "Test run completed."
