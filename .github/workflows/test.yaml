@@ -1,0 +1,21 @@
+name: Application Continuous-Integration Testing Script
+run-name: ${{ github.actor }} is running test scripts.
+on: [push]
+jobs:
+  TestChanges:
+    runs-on: ubuntu-latest
+    steps:
+      -run: echo "Test run automatically triggered by push."
+      -run: echo "Initializing conda env on ${{ runner.os }} on branch ${{ github.ref }}."
+      -run: conda create --name db --file requirements.txt
+      -run: echo "Activating conda env"
+      -run: conda activate db
+      -run: echo "Check out repository code."
+      -uses: actions/checkout@v3
+      -run: echo "Running whatever"
+      -run: make & pid=$!; sleep 60; kill $pid
+      -run: echo "Test run completed."
+      -run: echo "Status = ${{ job.status }}"
+
+
+
