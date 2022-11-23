@@ -13,7 +13,9 @@ jobs:
           activate-environment: base
           environment-file: requirements.txt
           channels: conda-forge
-      - run: echo "Running whatever"
-      - run: make & pid=$!; sleep 60; kill $pid
-      - run: echo "Test run completed."
-      - run: echo "Status = ${{ job.status }}"
+      - run: |
+          echo "Python path: $(which python)"
+          echo "Running whatever"
+          make & pid=$!; sleep 60; kill $pid
+          echo "Test run completed."
+          echo "Status = ${{ job.status }}"
