@@ -49,8 +49,8 @@ pure_eval=0.2.2=pyhd8ed1ab_0
 pycryptodome=3.15.0=py311hed39b41_1
 pygments=2.11.2=pyhd3eb1b0_0
 pymongo=4.3.3=py311h814d153_0
-python=3.11.0=h559f36b_0_cpython
-python_abi=3.11=3_cp311
+python=3.11.0
+python_abi=3.11
 readline=8.2=hca72f7f_0
 setuptools=65.5.1=pyhd8ed1ab_0
 six=1.16.0=pyhd3eb1b0_1
