@@ -19,6 +19,6 @@ jobs:
       - run: |
           echo "Python path: $(which python)"
           echo "Running whatever"
-          make & pid=$!; sleep 60; kill $pid
+          make test
           echo "Test run completed."
           echo "Status = ${{ job.status }}"

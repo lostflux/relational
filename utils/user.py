@@ -4,7 +4,7 @@
 # import abstract base class
 from abc import ABC, abstractmethod
 
-from .logging import Logging
+from .logging import Logging, warn
 
 class User(ABC):
   """
@@ -41,7 +41,7 @@ class InvalidUser(User):
   """
 
   def __init__(self, *args, **kwargs):
-    pass
+    warn("Invalid user, please log in again!")
 
   def __bool__(self):
     return False

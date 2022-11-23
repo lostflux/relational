@@ -10,6 +10,10 @@ run: main.py utils dbconfig.ini
 	@printf "Running program...\n\n"
 	./main.py /rebuild /populate
 
+test: main.py utils dbconfig.ini test.sh
+	@printf "Running test...\n\n"
+	./test.sh
+
 database:
 	@make -C ./sql
 

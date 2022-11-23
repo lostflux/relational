@@ -5,6 +5,7 @@ import shlex
 from getpass import getpass
 
 from sys import argv
+import signal
 
 from utils import (
   User, InvalidUser, SuperUser, Author, Editor, Reviewer,
@@ -22,11 +23,25 @@ def user_login(user_id: int) -> User:
     exit(1)
 
   cursor = conn.cursor()
+  user_pass = ""
+
+  def timeout(signum, frame):
+    """Timeout handler"""
+    print("Password prompt timed out.")
+    raise TimeoutError()
+
+  try:
+    signal.signal(signal.SIGALRM, timeout)
+    signal.alarm(5)
+    user_pass = getpass("Enter password: ")
+    signal.alarm(0)
+  except TimeoutError:
+    pass
 
   # get user password and encrypt
   cursor.execute(
     f"""
-      SELECT MD5('{getpass("Enter password: ")}') AS encrypted_password
+      SELECT MD5('{user_pass}') AS encrypted_password
     """
   )
   encrypted_password = cursor.fetchone()[0]
@@ -91,13 +106,17 @@ def main():
   user_id = int(input("Enter User ID: "))
   user: User = user_login(user_id)
   while user:
-    request = input(f"{user.prompt} ")
-    if request.startswith("login"):
-      new_user = handle_user_login(request)
-      if new_user:
-        user = new_user
-    else:
-      user.handle_request(request)
+    try:
+      request = input(f"{user.prompt} ").strip()
+      if request.startswith("login"):
+        new_user = handle_user_login(request)
+        if new_user:
+          user = new_user
+      else:
+        user.handle_request(request)
+    except EOFError:
+      warn("Reached end of stream, exiting...")
+      break
 
 if __name__ == '__main__':
   main()

@@ -7,6 +7,7 @@ import shlex
 
 from .dbconfig import read_db_config
 from .user import User
+from .logging import Logging, warn, info
 
 
 class Reviewer(User):
@@ -25,6 +26,9 @@ class Reviewer(User):
 			Print the user prompt in the terminal
 		"""
 		return f"Reviewer {self.reviewer_id}> "
+
+	def __bool__(self):
+		return self.conn.is_connected()
 
 	def register_reviewer(self, fname: str, lname: str, ICode_list: "list[int]"):
 		"""Register a reviewer
@@ -156,7 +160,7 @@ class Reviewer(User):
 		else:
 			results = f"{delim}\n{title}\n{delim}\n{results}"
 
-		return results
+		return Logging.info(results)
 
 	def set_manuscript_opinion(self, action, output):
 		"""Set the opinion of the reviewer on a manuscript

@@ -8,6 +8,7 @@ import shlex
 
 from .dbconfig import read_db_config
 from .user import User
+from .logging import Logging
 
 
 class Editor(User):
@@ -63,7 +64,7 @@ class Editor(User):
 		else:
 			results = f"{delim}\n{title}\n{delim}\n{results}"
 
-		return results
+		return Logging.info(results)
 
 	# 3. editor login
 	def login(self):

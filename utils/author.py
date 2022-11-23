@@ -382,17 +382,6 @@ class Author(User):
         print("Manuscript submitted successfully.")
       else:
         print("Manuscript submission failed.")
-    elif request_type == "login":
-      if len(request_tokens) < 2:
-        print("Invalid request: not enough arguments.")
-        return
-
-      try:
-        author_id = int(request_tokens[1])
-        self.__init__(author_id)
-      except ValueError:
-        warn("Invalid request: author ID must be an integer.")
-        return
 
     else:
       print("Invalid request.")
