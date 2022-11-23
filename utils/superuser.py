@@ -6,7 +6,7 @@ import shlex
 
 from .dbutils import ConnectionHandler, DBConnectError, DBParseError, warn, info
 from .user import User
-from .colors import Colors
+from .logging import Logging
 
 class SuperUser(User):
   """
@@ -81,7 +81,7 @@ class SuperUser(User):
     else:
       results = f"{delim}\n{title}\n{delim}\n{results}"
 
-    return Colors.info(results)
+    return Logging.info(results)
 
 
   def register_user(self,  user_type: str, fname: str, lname: str):

@@ -9,7 +9,7 @@ from typing import List
 from mysql.connector import DatabaseError
 
 from .dbconfig import connect, DBParseError, DBConnectError, ConnectionHandler
-from .colors import warn, info
+from .logging import warn, info
 
 import os
 

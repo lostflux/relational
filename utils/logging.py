@@ -5,7 +5,7 @@
   Generic handler for colors on the terminal.
 """
 
-class Colors:
+class Logging:
   HEADER = '\033[95m'
   BLUE = '\033[94m'
   CYAN = '\033[96m'
@@ -20,22 +20,22 @@ class Colors:
     """
       Format a string with WARNING color.
     """
-    return f"{Colors.WARNING}{s}{Colors.END}"
+    return f"{Logging.WARNING}{s}{Logging.END}"
 
   def info(s: str):
     """
       Format a string with INFO color.
     """
-    return f"{Colors.BLUE}{s}{Colors.END}"
+    return f"{Logging.BLUE}{s}{Logging.END}"
 
 def warn(s: str):
   """
     Print a warning string.
   """
-  print(f"{Colors.warning(s)}")
+  print(f"{Logging.warning(s)}")
 
 def info(s: str):
   """
     Print an info string.
   """
-  print(f"{Colors.CYAN}{s}{Colors.END}")
+  print(f"{Logging.CYAN}{s}{Logging.END}")

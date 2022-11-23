@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from .colors import Colors, warn, info
+from .logging import Logging, warn, info
 from .user import User, InvalidUser
 from .author import Author
 from .editor import Editor
@@ -19,7 +19,7 @@ __all__ = [
   'Reviewer',
   'connect',
   'DBParseError',
-  'Colors',
+  'Logging',
   'DBConnectError',
   'warn', 'info', 'build_database'
 ]

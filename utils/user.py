@@ -4,7 +4,7 @@
 # import abstract base class
 from abc import ABC, abstractmethod
 
-from .colors import Colors
+from .logging import Logging
 
 class User(ABC):
   """
@@ -47,8 +47,8 @@ class InvalidUser(User):
     return False
     
   def prompt(self) -> str:
-    return Colors.warning("Invalid user, please log in again!")
+    return Logging.warning("Invalid user, please log in again!")
 
   def handle_request(self, request: str):
-    print(Colors.warning("Invalid user, please log in again!"))
+    print(Logging.warning("Invalid user, please log in again!"))
 

@@ -5,16 +5,9 @@ from mysql.connector import MySQLConnection, Error, errorcode, FieldType
 from getpass import getpass
 from datetime import date
 import shlex
-
-if is_main := __name__ == "__main__":
-  from dbconfig import read_db_config
-  from user import User
-  from colors import Colors
-
-else:
-  from .dbconfig import read_db_config
-  from .user import User
-  from .colors import Colors
+from .dbconfig import read_db_config
+from .user import User
+from .logging import Logging, warn
 
 # Author Functionalities
 class Author(User):
@@ -118,7 +111,7 @@ class Author(User):
       results = f"{delim}\n{title}\n{delim}\n{results}"
     cursor.close()
 
-    return Colors.info(results)
+    return Logging.info(results)
 
     
   # 4. author submit
