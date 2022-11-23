@@ -10,8 +10,8 @@ jobs:
       - name: Install conda packages
         uses: conda-incubator/setup-miniconda@v2
         with:
-          activate-environment: test
-          environment-file: ${{github.workspace }}/requirements.txt
+          activate-environment: base
+          environment-file: requirements.txt
       - run: echo "Running whatever"
       - run: make & pid=$!; sleep 60; kill $pid
       - run: echo "Test run completed."
