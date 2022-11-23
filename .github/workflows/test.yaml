@@ -7,6 +7,7 @@ jobs:
     steps:
       - run: echo "Test run automatically triggered by push."
       - run: echo "Initializing conda env on ${{ runner.os }} on branch ${{ github.ref }}."
+      - run: echo "Currently in ${{ github.workspace }}."
       - run: conda create --name db --file requirements.txt
       - run: echo "Activating conda env"
       - run: conda activate db
