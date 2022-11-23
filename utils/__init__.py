@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from .colors import Colors, warn
+from .colors import Colors, warn, info
 from .user import User, InvalidUser
 from .author import Author
 from .editor import Editor
 from .reviewer import Reviewer
+from .superuser import SuperUser
 
-from .dbconfig import connect, DBParseError, DBConnectError
+from .dbconfig import connect, DBParseError, DBConnectError, ConnectionHandler
+from .dbutils import build_database
 
 __all__ = [
-  'User',
+  'User', 'SuperUser',
   'InvalidUser',
   'Author',
   'Editor',
@@ -19,5 +21,5 @@ __all__ = [
   'DBParseError',
   'Colors',
   'DBConnectError',
-  'warn'
+  'warn', 'info', 'build_database'
 ]

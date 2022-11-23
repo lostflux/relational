@@ -12,6 +12,19 @@ class DBConnectError(Exception):
     Exception raised for errors in connecting to Database.
   """
   pass
+
+class ConnectionHandler(MySQLConnection):
+  """
+    A context manager for MySQLConnection
+  """
+  def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
+
+  def __enter__(self):
+    return self
+
+  def __exit__(self, exc_type, exc_val, exc_tb):
+    self.close()
   
 def read_db_config(filename='dbconfig.ini', section='mysql'):
   """
@@ -52,10 +65,8 @@ def connect(filename='dbconfig.ini', section='mysql'):
     Connect to MySQL database.
   """
   db_config = read_db_config(filename)
-  print('Connecting to MySQL database...')
-  conn = MySQLConnection(**db_config)
+  conn = ConnectionHandler(**db_config)
   if conn.is_connected():
-    print('connection established.')
     return conn
   else:
     raise DBConnectError('connection failed.')

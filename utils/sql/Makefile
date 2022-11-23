@@ -19,10 +19,11 @@ all: test
 test:
 	@echo -e "Running tests...\n"
 	@echo -e "Please see 'all.sql' for which SELECT statements match to which output.\n\n"
-	@cat tables.sql >  all.sql
+	@cat clear.sql > all.sql
+	@cat tables.sql >>  all.sql
 	@cat insert.sql >> all.sql
 	@cat views.sql >> all.sql
-	@cat triggersetup.sql >> all.sql
+	@cat triggers.sql >> all.sql
 	@cat procedures.sql >> all.sql
 	@cat procedurestest.sql >> all.sql
 	# @cat triggertest.sql >> all.sql # this raises an error in mysql. Please test separately.

@@ -14,24 +14,7 @@
 -- We turn off foreign-key checks
 -- to allow deletion of referenced tables,
 -- then turn foreign-key checks back on.
- 
-SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS RICodes;
-DROP TABLE IF EXISTS Affiliation;
-DROP TABLE IF EXISTS Journal;
-DROP TABLE IF EXISTS Issue;
-DROP TABLE IF EXISTS Editor;
-DROP TABLE IF EXISTS Reviewer;
-DROP TABLE IF EXISTS Author;
-DROP TABLE IF EXISTS Manuscript_Author;
-DROP TABLE IF EXISTS Journal_has_RICodes;
-DROP TABLE IF EXISTS Reviewer_has_Manuscript;
-DROP TABLE IF EXISTS Manuscript;
-DROP TABLE IF EXISTS Reviewer_has_RICodes;
-DROP TABLE IF EXISTS credentials;
-
-SET FOREIGN_KEY_CHECKS = 1;
 
 
 
@@ -171,43 +154,13 @@ CREATE TABLE credentials
   (
     user_id   BIGINT        NOT NULL  PRIMARY KEY AUTO_INCREMENT,
     password  VARCHAR(255)  DEFAULT NULL,
-    user_type VARCHAR(20)   NOT NULL  CHECK (user_type IN ('Author', 'Reviewer', 'Editor')),
+    user_type VARCHAR(20)   NOT NULL  CHECK (user_type IN ('Admin', 'Author', 'Reviewer', 'Editor')),
     type_id   INT           NOT NULL,
     UNIQUE (user_type, type_id)
   );
 
-DROP TRIGGER IF EXISTS IndexAuthor;
-DELIMITER $$
-CREATE TRIGGER IndexAuthor
-  AFTER INSERT ON Author
-  FOR EACH ROW
-  BEGIN
-    SET @author_id = NEW.author_ID;
-    INSERT INTO credentials (password, user_type, type_id)
-    VALUES (NULL, 'Author', @author_id);
-  END$$
-DELIMITER ;
-
-DROP TRIGGER IF EXISTS IndexReviewer;
-DELIMITER $$
-CREATE TRIGGER IndexReviewer
-  AFTER INSERT ON Reviewer
-  FOR EACH ROW
-  BEGIN
-    SET @reviewer_id = NEW.reviewer_ID;
-    INSERT INTO credentials (password, user_type, type_id)
-    VALUES (NULL, 'Reviewer', @reviewer_id);
-  END$$
-DELIMITER ;
-
-DROP TRIGGER IF EXISTS IndexEditor;
-DELIMITER $$
-CREATE TRIGGER IndexEditor
-  AFTER INSERT ON Editor
-  FOR EACH ROW
-  BEGIN
-    SET @editor_id = NEW.editor_ID;
-    INSERT INTO credentials (password, user_type, type_id)
-    VALUES (NULL, 'Editor', @editor_id);
-  END$$
-DELIMITER ;
+-- Add super-user credentials.
+INSERT INTO credentials (password, user_type, type_id)
+VALUES 
+  (MD5('siavava'), 'Admin', 1),
+  (MD5('lou'), 'Admin', 2);

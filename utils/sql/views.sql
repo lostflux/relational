@@ -11,7 +11,7 @@
     
   Permissions: Editor.
  */
-DROP VIEW IF EXISTS LeadAuthorManuscripts;
+
 CREATE VIEW LeadAuthorManuscripts AS
   SELECT
     Author.l_name,
@@ -44,7 +44,6 @@ SELECT * FROM LeadAuthorManuscripts;
     
   Permissions: Author, Editor.
  */
-DROP VIEW IF EXISTS AnyAuthorManuscripts;
 CREATE VIEW AnyAuthorManuscripts AS
     SELECT 
         Author.author_id,
@@ -66,7 +65,7 @@ CREATE VIEW AnyAuthorManuscripts AS
         Manuscript.status_change_date ASC
     ;
 
-SELECT * FROM AnyAuthorManuscripts;
+-- SELECT * FROM AnyAuthorManuscripts;
 
 /*
   View: PublishedIssues
@@ -81,7 +80,7 @@ SELECT * FROM AnyAuthorManuscripts;
   Permissions: Author, Editor, Reviewer.
  */
 
-DROP VIEW IF EXISTS PublishedIssues;
+
 CREATE VIEW PublishedIssues AS
   SELECT
     Issue.year,
@@ -115,8 +114,6 @@ SELECT * FROM PublishedIssues;
     - This View is also used by ReviewStatus view.
     - Permissions: Editor.
  */
-
-DROP VIEW IF EXISTS ReviewQueue;
 CREATE VIEW ReviewQueue AS
   SELECT
     CONCAT_WS(' ', Author.f_name, Author.l_name) AS primary_author,
@@ -159,8 +156,6 @@ SELECT * FROM ReviewQueue;
 
     - Permissions: Editor.
  */
-
-DROP VIEW IF EXISTS WhatsLeft;
 CREATE VIEW WhatsLeft AS
   SELECT
     Manuscript.manuscript_number,
@@ -205,7 +200,6 @@ DELIMITER ;
 
     - Permissions: Editor.
  */
-DROP VIEW IF EXISTS ReviewStatus;
 CREATE VIEW ReviewStatus AS
   SELECT
     Reviewer_has_Manuscript.date_sent,

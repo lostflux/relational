@@ -4,12 +4,11 @@
 import shlex
 from getpass import getpass
 
-from utils import warn
-
+from sys import argv
 
 from utils import (
-  User, InvalidUser, Author, Editor, Reviewer,
-  DBParseError, DBConnectError, connect
+  User, InvalidUser, SuperUser, Author, Editor, Reviewer,
+  DBParseError, DBConnectError, connect, warn, info, build_database
 )
 
 
@@ -52,6 +51,9 @@ def user_login(user_id: int) -> User:
     if password and password != encrypted_password:
       warn("Incorrect password!\nPlease try again.")
       return InvalidUser()
+    elif user_type == "Admin":
+      cursor.close()
+      return SuperUser(user_id, conn)
     elif user_type == "Author":
       cursor.close()
       return Author(type_id, conn)
@@ -79,6 +81,11 @@ def handle_user_login(request: str) -> User:
 
 def main():
   """Main function"""
+
+  if len(argv) == 2:
+    if argv[1] == "/clean":
+      build_database()
+
   user_id = int(input("Enter User ID: "))
   user: User = user_login(user_id)
   while user:

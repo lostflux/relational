@@ -219,6 +219,184 @@ VALUES
   ("tristique.aliquet@yahoo.net","Eaton","Colin",6),
   ("felis.orci@hotmail.couk","Leach","Brianna",7);
 
+
+
+-- number of Reviewer:: 60
+INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
+VALUES
+  ("facilisis@protonmail.com","Leah","Wilkerson",18),
+  ("consectetuer.mauris@google.org","Sawyer","Gilbert",6),
+  ("pede.sagittis@google.couk","Garrison","Acevedo",11),
+  ("tempus@yahoo.edu","Gregory","Wynn",16),
+  ("urna.vivamus.molestie@aol.ca","Chiquita","Burch",6),
+  ("sed.sapien@icloud.ca","Lesley","Bender",2),
+  ("dui.suspendisse@aol.edu","Stacy","Robinson",16),
+  ("lacus.varius@yahoo.org","April","Rush",13),
+  ("eu.turpis.nulla@yahoo.couk","Dorian","Becker",12),
+  ("sed@protonmail.couk","Jeremy","Allison",18);
+INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
+VALUES
+  ("nisi.dictum.augue@aol.org","Nigel","Henry",8),
+  ("rutrum.eu@protonmail.org","Magee","Snider",3),
+  ("velit.pellentesque@yahoo.net","MacKensie","Robinson",1),
+  ("dictum@protonmail.ca","Mollie","Suarez",14),
+  ("integer.tincidunt.aliquam@google.ca","Uma","Sullivan",4),
+  ("scelerisque@hotmail.ca","Ocean","Griffin",15),
+  ("ipsum.cursus.vestibulum@icloud.couk","Chase","Parker",13),
+  ("ultricies.sem@protonmail.couk","Tad","Rocha",8),
+  ("auctor@aol.org","Axel","Bates",10),
+  ("risus@yahoo.net","Jerome","Huffman",8);
+INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
+VALUES
+  ("imperdiet.dictum@google.couk","Buckminster","Cleveland",14),
+  ("per.inceptos@aol.ca","Geoffrey","Wall",7),
+  ("nunc.est.mollis@aol.com","Roth","Cooke",1),
+  ("dui.fusce@protonmail.net","Neville","Gutierrez",15),
+  ("nunc.ullamcorper.velit@protonmail.com","Zachary","Jacobson",11),
+  ("dictum@yahoo.org","Victor","Donovan",6),
+  ("pede.nunc.sed@hotmail.com","James","Henderson",11),
+  ("egestas@aol.edu","Burke","Cooper",4),
+  ("viverra.donec@aol.org","Danielle","Mcdowell",14),
+  ("nunc.id.enim@google.org","Tallulah","Rowland",4);
+INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
+VALUES
+  ("commodo.ipsum.suspendisse@yahoo.net","Darrel","Cook",8),
+  ("ipsum.phasellus.vitae@yahoo.edu","Graham","Rice",11),
+  ("laoreet.posuere@yahoo.ca","Mia","Rocha",2),
+  ("eget@aol.ca","Daria","Cobb",11),
+  ("dis.parturient@google.org","Fay","Nielsen",13),
+  ("morbi@hotmail.ca","Drew","Cooke",7),
+  ("lorem.lorem@outlook.com","Brennan","Beasley",3),
+  ("fames.ac@protonmail.ca","Autumn","Gross",2),
+  ("egestas.duis@outlook.org","Lila","Pacheco",13),
+  ("non.lorem@protonmail.com","Kibo","Bryant",11);
+INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
+VALUES
+  ("sed.tortor.integer@protonmail.couk","Gwendolyn","Curtis",17),
+  ("massa.quisque@outlook.couk","Pearl","Johnston",12),
+  ("lobortis.tellus@aol.com","Kimberly","Kramer",10),
+  ("sagittis.augue@hotmail.edu","Anjolie","Beasley",12),
+  ("auctor.odio.a@hotmail.ca","Quin","Blake",18),
+  ("lobortis.augue.scelerisque@outlook.couk","Kadeem","Gibbs",19),
+  ("class.aptent@google.couk","Myra","Romero",16),
+  ("egestas.urna@icloud.couk","Sheila","Avila",16),
+  ("mus@yahoo.com","Jemima","Perry",12),
+  ("a.auctor@google.couk","Lydia","Gates",11);
+INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
+VALUES
+  ("neque.in@outlook.org","Yoshi","Horn",1),
+  ("purus.gravida@yahoo.edu","Ferris","Reyes",12),
+  ("consectetuer@yahoo.ca","Rashad","Moran",6),
+  ("eu.neque.pellentesque@icloud.ca","Leila","Gonzalez",18),
+  ("sed.eget@outlook.edu","Roth","Tate",5),
+  ("sagittis.duis@protonmail.com","Aiko","Francis",7),
+  ("est.mauris@hotmail.couk","Isabelle","Mcintosh",15),
+  ("sit@icloud.net","Lester","Bradford",17),
+  ("in.mi.pede@outlook.com","Jerome","Kelly",10),
+  ("etiam.ligula.tortor@aol.com","Cally","Hampton",13);
+
+
+-- number of Journal_has_codes: 20
+INSERT INTO Journal_has_RICodes (Journal_journal_id,RICodes_code)
+VALUES
+  (10,3),
+  (1,3),
+  (2,3),
+  (3,1),
+  (4,1),
+  (5,1),
+  (6,2),
+  (7,4),
+  (8,4),
+  (9,5);
+INSERT INTO Journal_has_RICodes (Journal_journal_id,RICodes_code)
+VALUES
+  (10,7),
+  (11,8),
+  (12,8),
+  (13,9),
+  (14,10),
+  (15,10),
+  (16,6),
+  (17,6),
+  (18,7),
+  (19,7);
+
+-- number of reviewer_has_ricode: 60
+INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
+VALUES
+  (1,4),
+  (2,8),
+  (3,7),
+  (4,1),
+  (5,3),
+  (6,6),
+  (7,5),
+  (8,2),
+  (9,3),
+  (10,2);
+INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
+VALUES
+  (11,3),
+  (12,1),
+  (13,7),
+  (14,10),
+  (15,4),
+  (16,7),
+  (17,8),
+  (18,4),
+  (19,7),
+  (20,4);
+INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
+VALUES
+  (21,8),
+  (22,2),
+  (23,3),
+  (24,2),
+  (25,2),
+  (26,7),
+  (27,4),
+  (28,9),
+  (29,6),
+  (30,10);
+INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
+VALUES
+  (31,7),
+  (32,3),
+  (33,3),
+  (34,9),
+  (35,8),
+  (36,10),
+  (37,6),
+  (38,1),
+  (39,4),
+  (40,8);
+INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
+VALUES
+  (41,9),
+  (42,7),
+  (43,5),
+  (44,3),
+  (45,5),
+  (46,5),
+  (47,5),
+  (48,7),
+  (49,5),
+  (50,8);
+INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
+VALUES
+  (51,4),
+  (52,5),
+  (53,6),
+  (54,1),
+  (55,4),
+  (56,3),
+  (57,3),
+  (58,1),
+  (59,3),
+  (60,6);
+
+
 -- number of manuscript: 200 
 INSERT INTO Manuscript (title,date_received,status,page_count,status_change_date,RICodes_code,Editor_editor_id,Issue_issue_id,page_number)
 VALUES
@@ -461,82 +639,6 @@ VALUES
   ("massa lobortis ultrices. Vivamus rhoncus. Donec","2022-10-19","in typesetting",7,"2022-09-22",4,5,8),
   ("est. Nunc laoreet lectus quis massa. Mauris vestibulum,","2022-12-05","ready",16,"2024-04-13",4,1,5);
 
-
-
--- number of Reviewer:: 60
-INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
-VALUES
-  ("facilisis@protonmail.com","Leah","Wilkerson",18),
-  ("consectetuer.mauris@google.org","Sawyer","Gilbert",6),
-  ("pede.sagittis@google.couk","Garrison","Acevedo",11),
-  ("tempus@yahoo.edu","Gregory","Wynn",16),
-  ("urna.vivamus.molestie@aol.ca","Chiquita","Burch",6),
-  ("sed.sapien@icloud.ca","Lesley","Bender",2),
-  ("dui.suspendisse@aol.edu","Stacy","Robinson",16),
-  ("lacus.varius@yahoo.org","April","Rush",13),
-  ("eu.turpis.nulla@yahoo.couk","Dorian","Becker",12),
-  ("sed@protonmail.couk","Jeremy","Allison",18);
-INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
-VALUES
-  ("nisi.dictum.augue@aol.org","Nigel","Henry",8),
-  ("rutrum.eu@protonmail.org","Magee","Snider",3),
-  ("velit.pellentesque@yahoo.net","MacKensie","Robinson",1),
-  ("dictum@protonmail.ca","Mollie","Suarez",14),
-  ("integer.tincidunt.aliquam@google.ca","Uma","Sullivan",4),
-  ("scelerisque@hotmail.ca","Ocean","Griffin",15),
-  ("ipsum.cursus.vestibulum@icloud.couk","Chase","Parker",13),
-  ("ultricies.sem@protonmail.couk","Tad","Rocha",8),
-  ("auctor@aol.org","Axel","Bates",10),
-  ("risus@yahoo.net","Jerome","Huffman",8);
-INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
-VALUES
-  ("imperdiet.dictum@google.couk","Buckminster","Cleveland",14),
-  ("per.inceptos@aol.ca","Geoffrey","Wall",7),
-  ("nunc.est.mollis@aol.com","Roth","Cooke",1),
-  ("dui.fusce@protonmail.net","Neville","Gutierrez",15),
-  ("nunc.ullamcorper.velit@protonmail.com","Zachary","Jacobson",11),
-  ("dictum@yahoo.org","Victor","Donovan",6),
-  ("pede.nunc.sed@hotmail.com","James","Henderson",11),
-  ("egestas@aol.edu","Burke","Cooper",4),
-  ("viverra.donec@aol.org","Danielle","Mcdowell",14),
-  ("nunc.id.enim@google.org","Tallulah","Rowland",4);
-INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
-VALUES
-  ("commodo.ipsum.suspendisse@yahoo.net","Darrel","Cook",8),
-  ("ipsum.phasellus.vitae@yahoo.edu","Graham","Rice",11),
-  ("laoreet.posuere@yahoo.ca","Mia","Rocha",2),
-  ("eget@aol.ca","Daria","Cobb",11),
-  ("dis.parturient@google.org","Fay","Nielsen",13),
-  ("morbi@hotmail.ca","Drew","Cooke",7),
-  ("lorem.lorem@outlook.com","Brennan","Beasley",3),
-  ("fames.ac@protonmail.ca","Autumn","Gross",2),
-  ("egestas.duis@outlook.org","Lila","Pacheco",13),
-  ("non.lorem@protonmail.com","Kibo","Bryant",11);
-INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
-VALUES
-  ("sed.tortor.integer@protonmail.couk","Gwendolyn","Curtis",17),
-  ("massa.quisque@outlook.couk","Pearl","Johnston",12),
-  ("lobortis.tellus@aol.com","Kimberly","Kramer",10),
-  ("sagittis.augue@hotmail.edu","Anjolie","Beasley",12),
-  ("auctor.odio.a@hotmail.ca","Quin","Blake",18),
-  ("lobortis.augue.scelerisque@outlook.couk","Kadeem","Gibbs",19),
-  ("class.aptent@google.couk","Myra","Romero",16),
-  ("egestas.urna@icloud.couk","Sheila","Avila",16),
-  ("mus@yahoo.com","Jemima","Perry",12),
-  ("a.auctor@google.couk","Lydia","Gates",11);
-INSERT INTO Reviewer (email,f_name,l_name,Affiliation_affiliation_id)
-VALUES
-  ("neque.in@outlook.org","Yoshi","Horn",1),
-  ("purus.gravida@yahoo.edu","Ferris","Reyes",12),
-  ("consectetuer@yahoo.ca","Rashad","Moran",6),
-  ("eu.neque.pellentesque@icloud.ca","Leila","Gonzalez",18),
-  ("sed.eget@outlook.edu","Roth","Tate",5),
-  ("sagittis.duis@protonmail.com","Aiko","Francis",7),
-  ("est.mauris@hotmail.couk","Isabelle","Mcintosh",15),
-  ("sit@icloud.net","Lester","Bradford",17),
-  ("in.mi.pede@outlook.com","Jerome","Kelly",10),
-  ("etiam.ligula.tortor@aol.com","Cally","Hampton",13);
-
 -- number of Reviewer_has_Manuscript:: 200
 INSERT INTO Reviewer_has_Manuscript (Reviewer_reviewer_id,Manuscript_manuscript_number,date_sent,Appropriateness,Clarity,Methodology,Experimental,Recommendation,feedback_date)
 VALUES
@@ -772,32 +874,6 @@ VALUES
   (30,71,"2022-03-05",8,6,5,10,1,"2022-10-05"),
   (42,26,"2024-07-03",2,3,5,5,1,"2021-06-01"),
   (30,38,"2022-12-15",8,8,6,8,10,"2021-08-01");
-
--- number of Journal_has_codes: 20
-INSERT INTO Journal_has_RICodes (Journal_journal_id,RICodes_code)
-VALUES
-  (10,3),
-  (1,3),
-  (2,3),
-  (3,1),
-  (4,1),
-  (5,1),
-  (6,2),
-  (7,4),
-  (8,4),
-  (9,5);
-INSERT INTO Journal_has_RICodes (Journal_journal_id,RICodes_code)
-VALUES
-  (10,7),
-  (11,8),
-  (12,8),
-  (13,9),
-  (14,10),
-  (15,10),
-  (16,6),
-  (17,6),
-  (18,7),
-  (19,7);
 
 -- number of Manuscript_Author:: 300
 INSERT INTO Manuscript_Author (Manuscript_manuscript_number,Author_author_id,Author_ordinal)
@@ -1123,79 +1199,3 @@ VALUES
   (85,23,1),
   (86,9,1),
   (87,50,1);
-
--- number of reviewer_has_ricode: 60
-INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
-VALUES
-  (1,4),
-  (2,8),
-  (3,7),
-  (4,1),
-  (5,3),
-  (6,6),
-  (7,5),
-  (8,2),
-  (9,3),
-  (10,2);
-INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
-VALUES
-  (11,3),
-  (12,1),
-  (13,7),
-  (14,10),
-  (15,4),
-  (16,7),
-  (17,8),
-  (18,4),
-  (19,7),
-  (20,4);
-INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
-VALUES
-  (21,8),
-  (22,2),
-  (23,3),
-  (24,2),
-  (25,2),
-  (26,7),
-  (27,4),
-  (28,9),
-  (29,6),
-  (30,10);
-INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
-VALUES
-  (31,7),
-  (32,3),
-  (33,3),
-  (34,9),
-  (35,8),
-  (36,10),
-  (37,6),
-  (38,1),
-  (39,4),
-  (40,8);
-INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
-VALUES
-  (41,9),
-  (42,7),
-  (43,5),
-  (44,3),
-  (45,5),
-  (46,5),
-  (47,5),
-  (48,7),
-  (49,5),
-  (50,8);
-INSERT INTO Reviewer_has_RICodes (Reviewer_reviewer_id,RICodes_code)
-VALUES
-  (51,4),
-  (52,5),
-  (53,6),
-  (54,1),
-  (55,4),
-  (56,3),
-  (57,3),
-  (58,1),
-  (59,3),
-  (60,6);
-
-

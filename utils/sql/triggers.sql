@@ -8,7 +8,8 @@
   can not be considered at this time.
  */
 
-DROP TRIGGER IF EXISTS AutoRejectManuscriptOnNoReviewers;
+
+
 DELIMITER $$
 CREATE TRIGGER AutoRejectManuscriptOnNoReviewers
   BEFORE INSERT ON Manuscript
@@ -17,10 +18,10 @@ CREATE TRIGGER AutoRejectManuscriptOnNoReviewers
     DECLARE counter INT;
     SELECT COUNT(*) INTO counter
     FROM Reviewer_has_RICodes
-    WHERE RICodes_code = NEW.RICodes_code;
+    WHERE Reviewer_has_RICodes.RICodes_code = NEW.RICodes_code;
     IF counter = 0 THEN
-      SIGNAL SQLSTATE '45000'
-      SET MESSAGE_TEXT = 'Sorry, we cannot review your manuscript at this time.';
+      SET NEW.status = "rejected";
+      SET NEW.status_change_date = NOW();
     END IF;
   END$$
 DELIMITER ;
@@ -38,7 +39,6 @@ DELIMITER ;
 */
 
 -- First, delete assignment and RICode link when a reviewer resigns.
-DROP TRIGGER IF EXISTS DeleteAssignmentOnReviewerResign;
 DELIMITER $$
 CREATE TRIGGER DeleteAssignmentOnReviewerResign
   BEFORE DELETE ON Reviewer
@@ -52,7 +52,6 @@ CREATE TRIGGER DeleteAssignmentOnReviewerResign
 DELIMITER ;
 
 -- Next, reset manuscripts to either submitted or rejected.
-DROP TRIGGER IF EXISTS ResetManuscriptStatusonReviewerResign;
 DELIMITER $$
 CREATE TRIGGER ResetManuscriptStatusonReviewerResign
   BEFORE DELETE ON Reviewer_has_Manuscript
@@ -82,14 +81,14 @@ CREATE TRIGGER ResetManuscriptStatusonReviewerResign
         );
       IF other_reviewers_count > 0 THEN
         UPDATE Manuscript
-        SET status = 'submitted',
+        SET status = 'Submitted',
         status_change_date = NOW()
         WHERE manuscript_number = OLD.Manuscript_manuscript_number;
         SIGNAL SQLSTATE '42000'
         SET MESSAGE_TEXT = 'Manuscript status reset to submitted.';
       ELSE
         UPDATE Manuscript
-        SET status = 'rejected',
+        SET status = 'Rejected',
         status_change_date = NOW()
         WHERE manuscript_number = OLD.Manuscript_manuscript_number;
       END IF;
@@ -110,20 +109,56 @@ DELIMITER ;
             the status is immediately set to typesetting
    Permissions: Editor.
 */
-DROP TRIGGER IF EXISTS manuscript_become_accepted;
 DELIMITER $$
-CREATE TRIGGER manuscript_become_accepted
+CREATE TRIGGER AutoAcceptManuscript
     BEFORE UPDATE ON Manuscript
     FOR EACH ROW
     BEGIN
-		IF NEW.status = 'accepted' THEN
-			SET NEW.status = 'typesetting';
+		IF NEW.status = 'Accepted' THEN
+			SET NEW.status = 'Typesetting';
 		END IF;
     END$$
 DELIMITER ;
 
 
 
-    
+-- Index new editors into credentials table.
+DELIMITER $$
+CREATE TRIGGER IndexAuthor
+  AFTER INSERT ON Author
+  FOR EACH ROW
+  BEGIN
+    SET @author_id = NEW.author_ID;
+    INSERT INTO credentials (password, user_type, type_id)
+    VALUES (NULL, 'Author', @author_id);
+  END$$
+DELIMITER ;
 
 
+
+-- Index new reviewers into credentials table
+
+DELIMITER $$
+CREATE TRIGGER IndexReviewer
+  AFTER INSERT ON Reviewer
+  FOR EACH ROW
+  BEGIN
+    SET @reviewer_id = NEW.reviewer_ID;
+    INSERT INTO credentials (password, user_type, type_id)
+    VALUES (NULL, 'Reviewer', @reviewer_id);
+  END$$
+DELIMITER ;
+
+
+
+-- Index new editors into credentials table
+DELIMITER $$
+CREATE TRIGGER IndexEditor
+  AFTER INSERT ON Editor
+  FOR EACH ROW
+  BEGIN
+    SET @editor_id = NEW.editor_ID;
+    INSERT INTO credentials (password, user_type, type_id)
+    VALUES (NULL, 'Editor', @editor_id);
+  END$$
+DELIMITER ;

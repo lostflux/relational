@@ -6,9 +6,15 @@ from getpass import getpass
 from datetime import date
 import shlex
 
-from .dbconfig import read_db_config
-from .user import User
-from .colors import Colors, warn, info
+if is_main := __name__ == "__main__":
+  from dbconfig import read_db_config
+  from user import User
+  from colors import Colors
+
+else:
+  from .dbconfig import read_db_config
+  from .user import User
+  from .colors import Colors
 
 # Author Functionalities
 class Author(User):

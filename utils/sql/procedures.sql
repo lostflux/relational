@@ -12,7 +12,6 @@
         Reject the manuscript if it scores less than 40
 */
 
-DROP PROCEDURE IF EXISTS MakeDecision;
 DELIMITER $$
 CREATE PROCEDURE MakeDecision(
  IN manuscript_number INT,
