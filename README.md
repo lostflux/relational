@@ -110,6 +110,44 @@ SUM:                            26            576            792           3087
 -------------------------------------------------------------------------------
 ```
 
+---
+
+## Example Run
+
+```bash
+λ> ./main.py /rebuild /withdata
+Database built successfully
+Inserting data into database...
+Data inserted successfully
+Enter User ID: 7
+Enter password: 
+Hello, Drake Leach 
+
+Status:
+----------------------------------------------------
+
+Last Change: 2024-06-24
+
+----------------------------------------------------
+| Manuscript #### |                         Status |
+----------------------------------------------------
+| Manuscript    3 |                       accepted |
+----------------------------------------------------
+| Manuscript   37 |                 in typesetting |
+----------------------------------------------------
+| Manuscript   74 |                          ready |
+----------------------------------------------------
+| Manuscript  148 |                          ready |
+----------------------------------------------------
+
+
+Author 5>  {do more interesting stuff here}
+```
+
+![screenshot][screenshot]
+
+
+
 
 [dbconfig]: dbconfig.ini
 [tables]: utils/sql/tables.sql
@@ -119,3 +157,4 @@ SUM:                            26            576            792           3087
 [author]: utils/author.py
 [editor]: utils/editor.py
 [reviewer]: utils/reviewer.py
+[screenshot]: screenshot.png
