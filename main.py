@@ -83,7 +83,7 @@ def main():
   """Main function"""
 
   if len(argv) >= 2 and argv[1] == "/rebuild":
-    if len(argv) >= 3 and argv[2] == "/withdata":
+    if len(argv) >= 3 and argv[2] == "/populate":
       build_database(load_data=True)
     else:
       build_database()

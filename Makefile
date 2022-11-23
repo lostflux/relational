@@ -8,7 +8,7 @@ all: run
 
 run: main.py utils dbconfig.ini
 	@printf "Running program...\n\n"
-	@python3 main.py /clean
+	./main.py /rebuild /populate
 
 database:
 	@make -C ./sql
