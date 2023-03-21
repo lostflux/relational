@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
   
-read -r -d '' commands <<EOF
+read -r commands <<EOF
   7
   status
   status
